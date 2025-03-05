@@ -1,4 +1,3 @@
-import 'package:first_app/Screen/login.dart';
 import 'package:first_app/Routes/routeNamed.dart';
 import 'package:first_app/Models/apearance.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,7 @@ void main() async {
   Apearance.prefs = await SharedPreferences.getInstance();
   runApp(
     MaterialApp(
-      home: LoginScreen(),
+      initialRoute: Routenamed.splash,
       onGenerateRoute: (value) => Routenamed.generateRouted(value),
       debugShowCheckedModeBanner: false,
     ),
@@ -474,3 +473,66 @@ void main() async {
 //     );
 //   }
 // }
+
+class AnimatePicture extends StatefulWidget {
+  const AnimatePicture({super.key});
+
+  @override
+  State<AnimatePicture> createState() => _AnimatePictureState();
+}
+
+class _AnimatePictureState extends State<AnimatePicture>
+    with TickerProviderStateMixin {
+  double _turns = 0.0;
+  double _scale = 1.0;
+  late final AnimationController animationController;
+  late final Animation<Offset> animation;
+
+  void _animation() {
+    setState(() {
+      _turns = 1;
+      _scale = _scale == 1.0 ? 1.5 : 1.0;
+    });
+  }
+
+  @override
+  void initState() {
+    animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 2));
+
+    animation = Tween<Offset>(begin: Offset(0, 1), end: Offset(0, 0))
+        .animate(animationController);
+    animationController.forward();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: _animation,
+              child: SlideTransition(
+                position: animation,
+                child: AnimatedRotation(
+                  turns: _turns,
+                  duration: Duration(seconds: 4),
+                  curve: Curves.easeInOut,
+                  child: AnimatedScale(
+                      scale: _scale,
+                      duration: const Duration(seconds: 1),
+                      curve: Curves.easeInOut,
+                      child: Image.asset('asset/Logo.png',
+                          width: 211, height: 102)),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

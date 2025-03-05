@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
+import 'package:first_app/Routes/routenamed.dart';
 import 'package:first_app/Widget/button.dart';
 import 'package:first_app/Widget/text_input.dart';
 import 'package:first_app/Widget/Validator.dart';
@@ -22,6 +23,7 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  Map<String, dynamic>? result;
 
   @override
   void initState() {
@@ -59,7 +61,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset('asset/Logo.png', width: 211, height: 102),
-                  const SizedBox(height: 20), // Duy trì khoảng cách lớn
+                  const SizedBox(height: 20),
                   TextInput(
                     hintText: "Full Name",
                     type: "text",
@@ -115,7 +117,18 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                         );
                         Future.delayed(const Duration(seconds: 3), () {
-                          Navigator.pop(context);
+                          result = {
+                            "phoneKey": phonenumberController.text,
+                            "passKey": passwordController.text,
+                            "nameKey": fullnameController.text,
+                            "emailKey": emailController.text
+                          };
+
+                          print("Result before navigating to Login: $result");
+
+                          Navigator.pushReplacementNamed(
+                              context, Routenamed.login,
+                              arguments: result);
                         });
                       }
                     },

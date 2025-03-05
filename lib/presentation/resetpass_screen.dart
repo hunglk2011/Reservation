@@ -72,7 +72,10 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                         if (_formKey.currentState!.validate()) {
                           ModalBottomSheet.showSheet(context, () {
                             Navigator.pushReplacementNamed(
-                                context, Routenamed.login);
+                                context, Routenamed.login,
+                                arguments: <String, dynamic>{
+                                  "newPass": passwordController.text
+                                });
                           });
                         }
                       },

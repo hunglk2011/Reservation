@@ -1,0 +1,86 @@
+import 'package:first_app/Routes/routenamed.dart';
+import 'package:first_app/presentation/onboard/onboard_convenient.dart';
+import 'package:first_app/presentation/onboard/onboard_delicious.dart';
+import 'package:first_app/presentation/onboard/onboard_position.dart';
+import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+class OnboardScreen extends StatefulWidget {
+  const OnboardScreen({super.key});
+
+  @override
+  State<OnboardScreen> createState() => _OnboardScreenState();
+}
+
+class _OnboardScreenState extends State<OnboardScreen> {
+  late final PageController controller;
+  int currentPage = 0;
+
+  @override
+  void initState() {
+    controller = PageController();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: SafeArea(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 16,
+          ),
+          Image.asset(
+            "asset/Logo.png",
+            width: 211,
+            height: 102,
+          ),
+          Expanded(
+              child: PageView(
+            controller: controller,
+            onPageChanged: (value) => {currentPage = value},
+            children: [
+              OnboardPosition(),
+              OnboardConvenient(),
+              OnboardDelicious()
+            ],
+          )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(
+                        context, Routenamed.homescreen);
+                  },
+                  child: Text(
+                    "Skip",
+                    style: TextStyle(fontSize: 16),
+                  )),
+              SmoothPageIndicator(
+                  controller: controller,
+                  count: 3,
+                  effect: WormEffect(
+                      activeDotColor:
+                          Color(0xffAD3F32)), // your preferred effect
+                  onDotClicked: (index) {}),
+              IconButton(
+                  onPressed: () {
+                    if (currentPage == 2) {
+                      Navigator.pushReplacementNamed(
+                          context, Routenamed.homescreen);
+                    } else {
+                      controller.nextPage(
+                          duration: Duration(seconds: 2),
+                          curve: Curves.easeOutSine);
+                    }
+                  },
+                  icon: Icon(Icons.arrow_forward_ios_rounded))
+            ],
+          )
+        ],
+      ),
+    ));
+  }
+}

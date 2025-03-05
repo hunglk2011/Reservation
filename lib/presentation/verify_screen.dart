@@ -5,7 +5,8 @@ import 'package:first_app/Routes/routenamed.dart';
 import 'package:flutter/material.dart';
 
 class VerifyScreen extends StatefulWidget {
-  const VerifyScreen({super.key});
+  final String? phoneNumber;
+  const VerifyScreen({super.key, this.phoneNumber});
 
   @override
   State<VerifyScreen> createState() => _VerifyScreenState();
@@ -43,8 +44,8 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      "Enter the OTP code that we send you via SMS",
+                    Text(
+                      "Enter the OTP code that we send your phone: ${widget.phoneNumber}",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 18,
@@ -91,7 +92,8 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       text: "VERIFY",
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          Navigator.pushNamed(context, Routenamed.reset);
+                          Navigator.pushReplacementNamed(
+                              context, Routenamed.reset);
                         }
                       },
                     ),

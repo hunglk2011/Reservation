@@ -13,6 +13,7 @@ class ForgotpassScreen extends StatefulWidget {
 
 class _ForgotpassScreenState extends State<ForgotpassScreen> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController phoneNumberController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,13 +58,17 @@ class _ForgotpassScreenState extends State<ForgotpassScreen> {
                       hintText: "Enter Phone Number",
                       type: "number",
                       validator: Validator.validatePhoneNumber,
+                      controller: phoneNumberController,
                     ),
                     const SizedBox(height: 14),
                     ButtonSignup(
                       text: "GET OTP",
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          Navigator.pushNamed(context, Routenamed.verify);
+                          Navigator.pushNamed(context, Routenamed.verify,
+                              arguments: <String, dynamic>{
+                                "phoneNumKey": phoneNumberController.text
+                              });
                         }
                       },
                     ),
