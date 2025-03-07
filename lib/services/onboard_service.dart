@@ -6,12 +6,12 @@ class OnboardStorageKey {
 
 class OnboardService {
   static void saveOnboardToLocal() {
-    final pres = AppPreferece.prefs;
+    final pres = AppPreference.prefs;
     pres?.setBool(OnboardStorageKey.isFirstOpenKey, true);
   }
 
   static bool isFirstOpen() {
-    final pres = AppPreferece.prefs;
+    final pres = AppPreference.prefs;
     return pres?.getBool(OnboardStorageKey.isFirstOpenKey) ?? false;
   }
 }

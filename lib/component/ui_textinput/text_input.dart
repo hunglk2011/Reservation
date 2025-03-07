@@ -37,15 +37,18 @@ class _TextInputState extends State<TextInput> {
       keyboardType: typeInput(widget.type),
       obscureText: widget.type == "password" ? isShow : false,
       decoration: InputDecoration(
-        suffix:
-            widget.type != "password"
+        suffixIcon:
+            widget.type == "password"
                 ? IconButton(
                   onPressed: () {
                     setState(() {
                       isShow = !isShow;
                     });
                   },
-                  icon: Icon(isShow ? Icons.visibility_off : Icons.visibility),
+                  icon: Icon(
+                    isShow ? Icons.visibility_off : Icons.visibility,
+                    color: Colors.grey,
+                  ),
                 )
                 : null,
         filled: true,

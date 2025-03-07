@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:reservation_system/component/UI_textinput/text_input.dart';
 import 'package:reservation_system/component/ui_button/button.dart';
+import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/models/class/user.dart';
 import 'package:reservation_system/models/share_preference/preferences.dart';
 import 'package:reservation_system/models/validator_login/validator.dart';
@@ -28,7 +29,7 @@ class _SignupScreenState extends State<SignupScreen> {
   void initState() {
     super.initState();
 
-    final String? userString = AppPreferece.prefs?.getString("signupKey");
+    final String? userString = AppPreference.prefs?.getString("signupKey");
     if (userString == null || userString.isEmpty) return;
 
     try {
@@ -59,7 +60,11 @@ class _SignupScreenState extends State<SignupScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('asset/Logo.png', width: 211, height: 102),
+                  Image.asset(
+                    Assets.images.imgLogoBbq.path,
+                    width: 211,
+                    height: 102,
+                  ),
                   const SizedBox(height: 20),
                   TextInput(
                     hintText: "Full Name",
@@ -67,18 +72,24 @@ class _SignupScreenState extends State<SignupScreen> {
                     validator: Validator.validateName,
                     controller: fullnameController,
                   ),
+                  const SizedBox(height: 12), // ✅ Thêm khoảng cách
+
                   TextInput(
                     hintText: "Phone Number",
                     type: "phone",
                     validator: Validator.validatePhoneNumber,
                     controller: phonenumberController,
                   ),
+                  const SizedBox(height: 12), // ✅ Thêm khoảng cách
+
                   TextInput(
                     hintText: "Email",
                     type: "email",
                     validator: Validator.validateEmail,
                     controller: emailController,
                   ),
+                  const SizedBox(height: 12), // ✅ Thêm khoảng cách
+
                   TextInput(
                     hintText: "Password",
                     type: "password",
@@ -86,6 +97,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     controller: passwordController,
                     validator: Validator.validatePassword,
                   ),
+                  const SizedBox(height: 12), // ✅ Thêm khoảng cách
+
                   TextInput(
                     hintText: "Confirm Password",
                     type: "password",
@@ -111,7 +124,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         );
                         final userJson = user.toJson();
                         final raw = jsonEncode(userJson);
-                        await AppPreferece.prefs?.setString("signupKey", raw);
+                        await AppPreference.prefs?.setString("signupKey", raw);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('FORM is OK CAN LOGIN'),

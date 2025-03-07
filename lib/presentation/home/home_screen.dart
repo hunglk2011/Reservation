@@ -35,11 +35,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         title: Row(
           children: [
-            Row(
-              children: [
-                Icon(Icons.place, color: Colors.deepOrangeAccent),
-                Text("Dong Khoi st, District 1"),
-              ],
+            Icon(Icons.place, color: Colors.deepOrangeAccent),
+            SizedBox(width: 4),
+            Expanded(
+              child: Text(
+                "Dong Khoi st, District 1",
+                overflow: TextOverflow.ellipsis, // ✅ Cắt chữ nếu quá dài
+              ),
             ),
           ],
         ),

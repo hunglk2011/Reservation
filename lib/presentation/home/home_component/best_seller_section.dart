@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:reservation_system/component/ui_section/section.dart';
 import 'package:reservation_system/presentation/home/data/home_data.dart';
 import 'package:reservation_system/presentation/home/home_component/product_card.dart';
+import 'package:reservation_system/routes/route_named.dart';
 
 class BestSellerSection extends StatelessWidget {
   const BestSellerSection({super.key});
@@ -12,7 +13,7 @@ class BestSellerSection extends StatelessWidget {
       title: 'Best seller',
       body: _buildBody(context),
       onPress: () {
-        // Navigator.pushNamed(context, RouteNamed.productListPage);
+        Navigator.pushNamed(context, Routenamed.seeAllBestSeller);
       },
     );
   }

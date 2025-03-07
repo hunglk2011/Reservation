@@ -5,6 +5,7 @@ import 'package:reservation_system/presentation/login/login.dart';
 import 'package:reservation_system/presentation/notification/notification_screen.dart';
 import 'package:reservation_system/presentation/onboard/onboard_screen.dart';
 import 'package:reservation_system/presentation/reset_pass/reset_pass.dart';
+import 'package:reservation_system/presentation/see_all/best_seller/best_seller_screen.dart';
 import 'package:reservation_system/presentation/signup/signup.dart';
 import 'package:reservation_system/presentation/splash/splash.dart';
 import 'package:reservation_system/presentation/verify_otp/verify_otp.dart';
@@ -19,6 +20,7 @@ class Routenamed {
   static const String homescreen = "/HomeScreen";
   static const String splash = "/splash";
   static const String notify = "/notify";
+  static const String seeAllBestSeller = "/bestSeller";
 
   static Route<dynamic>? generateRouted(RouteSettings settings) {
     switch (settings.name) {
@@ -66,7 +68,7 @@ class Routenamed {
         final data = settings.arguments as Map<String, dynamic>?;
         final name = data?["nameKey"] as String?;
         final email = data?["emailKey"] as String? ?? "";
-        final passKey = data?["passKey"] as String? ?? "";
+        // final passKey = data?["passKey"] as String? ?? "";
 
         return PageRouteBuilder(
           pageBuilder:
@@ -81,6 +83,12 @@ class Routenamed {
         return MaterialPageRoute(
           builder: (context) => const NotificationScreen(),
         );
+
+      case seeAllBestSeller:
+        return MaterialPageRoute(
+          builder: (context) => const BestSellerScreen(),
+        );
+
       default:
         return MaterialPageRoute(
           builder:

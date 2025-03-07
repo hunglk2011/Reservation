@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/routes/route_named.dart';
 import 'package:reservation_system/services/onboard_service.dart';
 
@@ -28,7 +29,11 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image.asset('asset/Logo.png', width: 211, height: 102),
+        child: Image.asset(
+          Assets.images.imgLogoBbq.path,
+          width: 211,
+          height: 102,
+        ),
       ),
     );
   }

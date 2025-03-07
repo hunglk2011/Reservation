@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:reservation_system/component/UI_textinput/text_input.dart';
 import 'package:reservation_system/component/ui_button/button.dart';
 import 'package:reservation_system/component/ui_dialog/dialog.dart';
+import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/models/share_preference/preferences.dart';
 import 'package:reservation_system/models/validator_login/validator.dart';
 import 'package:reservation_system/routes/route_named.dart';
@@ -60,8 +61,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   children: [
-                    const SizedBox(height: 10),
-                    Image.asset('asset/Logo.png', width: 211, height: 102),
+                    Image.asset(
+                      Assets.images.imgLogoBbq.path,
+                      width: 211,
+                      height: 102,
+                    ),
                     const SizedBox(height: 20),
                     TextInput(
                       hintText: 'Phone Number',
@@ -130,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             "emailKey": widget.email,
                           };
 
-                          await AppPreferece.prefs?.setString(
+                          await AppPreference.prefs?.setString(
                             "userKey",
                             jsonEncode(userLogin),
                           );

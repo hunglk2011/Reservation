@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/presentation/home/home_component/menu_card.dart';
 import 'package:reservation_system/presentation/home/home_component/reserve_button.dart';
 import 'package:reservation_system/routes/route_named.dart';
@@ -37,7 +38,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           padding: EdgeInsets.zero,
           children: [
             SizedBox(height: 16),
-            Center(child: Image.asset("asset/Logo.png")),
+            Center(child: Image.asset(Assets.images.imgLogoBbq.path)),
             SizedBox(height: 12),
             isLoggedIn
                 ? Row(
