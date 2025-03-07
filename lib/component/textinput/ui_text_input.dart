@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class TextInput extends StatefulWidget {
+class UITextInput extends StatefulWidget {
   final String hintText;
   final String type;
   final bool obscureText;
   final String? Function(String?)? validator;
   final TextEditingController? controller;
 
-  const TextInput({
+  const UITextInput({
     super.key,
     required this.hintText,
     required this.type,
@@ -18,10 +18,10 @@ class TextInput extends StatefulWidget {
 
   @override
   // ignore: library_private_types_in_public_api
-  _TextInputState createState() => _TextInputState();
+  _UITextInputState createState() => _UITextInputState();
 }
 
-class _TextInputState extends State<TextInput> {
+class _UITextInputState extends State<UITextInput> {
   late bool isShow;
 
   @override

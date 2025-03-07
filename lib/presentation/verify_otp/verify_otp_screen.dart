@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:reservation_system/component/UI_textinput/text_input.dart';
-import 'package:reservation_system/component/ui_button/button.dart';
+import 'package:reservation_system/component/button/ui_button.dart';
+import 'package:reservation_system/component/textinput/ui_text_input.dart';
 import 'package:reservation_system/models/validator_login/validator.dart';
 import 'package:reservation_system/routes/route_named.dart';
 
@@ -54,7 +54,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    TextInput(
+                    UITextInput(
                       hintText: "Enter OTP Code",
                       type: "number",
                       validator: Validator.validateOTP,

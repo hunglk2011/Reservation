@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reservation_system/component/ui_section/section.dart';
+import 'package:reservation_system/component/section/ui_section.dart';
 import 'package:reservation_system/presentation/home/data/home_data.dart';
 import 'package:reservation_system/presentation/home/home_component/restaurant_card.dart';
 

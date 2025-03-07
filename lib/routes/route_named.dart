@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:reservation_system/presentation/forgot/forgot.dart';
+import 'package:reservation_system/presentation/forgot_password/forgot_password_screen.dart';
 import 'package:reservation_system/presentation/home/home_screen.dart';
-import 'package:reservation_system/presentation/login/login.dart';
+import 'package:reservation_system/presentation/login/login_screen.dart';
 import 'package:reservation_system/presentation/notification/notification_screen.dart';
 import 'package:reservation_system/presentation/onboard/onboard_screen.dart';
-import 'package:reservation_system/presentation/reset_pass/reset_pass.dart';
+import 'package:reservation_system/presentation/reset_password/reset_pass_screen.dart';
 import 'package:reservation_system/presentation/see_all/best_seller/best_seller_screen.dart';
-import 'package:reservation_system/presentation/signup/signup.dart';
+import 'package:reservation_system/presentation/signup/signup_screen.dart';
 import 'package:reservation_system/presentation/splash/splash.dart';
-import 'package:reservation_system/presentation/verify_otp/verify_otp.dart';
+import 'package:reservation_system/presentation/verify_otp/verify_otp_screen.dart';
 
 class Routenamed {
   static const String login = "/login";
@@ -51,7 +51,7 @@ class Routenamed {
 
       case forgot:
         return MaterialPageRoute(
-          builder: (context) => const ForgotpassScreen(),
+          builder: (context) => const ForgotPasswordScreen(),
         );
 
       case verify:

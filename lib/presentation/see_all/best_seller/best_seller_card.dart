@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reservation_system/component/ui_button/reserve_button.dart';
+import 'package:reservation_system/component/button/ui_reserve_button.dart';
 
 class BestSellerCard extends StatelessWidget {
   final String title;

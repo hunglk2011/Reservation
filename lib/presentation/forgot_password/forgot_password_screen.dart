@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:reservation_system/component/UI_textinput/text_input.dart';
-import 'package:reservation_system/component/ui_button/button.dart';
+import 'package:reservation_system/component/button/ui_button.dart';
 import 'package:reservation_system/models/validator_login/validator.dart';
 import 'package:reservation_system/routes/route_named.dart';
 
-class ForgotpassScreen extends StatefulWidget {
-  const ForgotpassScreen({super.key});
+class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({super.key});
 
   @override
-  State<ForgotpassScreen> createState() => _ForgotpassScreenState();
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _ForgotpassScreenState extends State<ForgotpassScreen> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController phoneNumberController = TextEditingController();
   @override

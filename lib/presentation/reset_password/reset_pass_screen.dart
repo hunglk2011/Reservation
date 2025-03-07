@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:reservation_system/component/UI_textinput/text_input.dart';
-import 'package:reservation_system/component/ui_button/button.dart';
-import 'package:reservation_system/component/ui_dialog/dialog.dart';
+import 'package:reservation_system/component/button/ui_button.dart';
+import 'package:reservation_system/component/dialog/ui_dialog.dart';
+import 'package:reservation_system/component/textinput/ui_text_input.dart';
 import 'package:reservation_system/models/validator_login/validator.dart';
 import 'package:reservation_system/routes/route_named.dart';
 
@@ -47,7 +47,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    TextInput(
+                    UITextInput(
                       hintText: "New Password",
                       type: "password",
                       obscureText: true,
@@ -55,7 +55,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                       validator: Validator.validatePassword,
                     ),
                     const SizedBox(height: 10),
-                    TextInput(
+                    UITextInput(
                       hintText: "Confirm Password",
                       type: "password",
                       obscureText: true,

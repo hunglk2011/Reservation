@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:reservation_system/component/UI_textinput/text_input.dart';
-import 'package:reservation_system/component/ui_button/button.dart';
-import 'package:reservation_system/component/ui_dialog/dialog.dart';
+import 'package:reservation_system/component/button/ui_button.dart';
+import 'package:reservation_system/component/dialog/ui_dialog.dart';
+import 'package:reservation_system/component/textinput/ui_text_input.dart';
 import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/models/share_preference/preferences.dart';
 import 'package:reservation_system/models/validator_login/validator.dart';
@@ -67,14 +67,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 102,
                     ),
                     const SizedBox(height: 20),
-                    TextInput(
+                    UITextInput(
                       hintText: 'Phone Number',
                       type: 'number',
                       controller: phonenumberController,
                       validator: Validator.validatePhoneNumber,
                     ),
                     const SizedBox(height: 10),
-                    TextInput(
+                    UITextInput(
                       hintText: 'Password',
                       type: 'password',
                       obscureText: true,

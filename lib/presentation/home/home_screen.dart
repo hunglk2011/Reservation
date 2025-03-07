@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reservation_system/component/ui_textinput/text_input.dart';
+import 'package:reservation_system/component/textinput/ui_text_input.dart';
 import 'package:reservation_system/presentation/home/home_component/best_seller_section.dart';
 import 'package:reservation_system/presentation/home/home_component/discount_section.dart';
 import 'package:reservation_system/presentation/home/home_component/drawer.dart';
@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: Text(
                 "Dong Khoi st, District 1",
-                overflow: TextOverflow.ellipsis, // ✅ Cắt chữ nếu quá dài
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],
@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              TextInput(
+              UITextInput(
                 hintText: "Search",
                 type: "text",
                 controller: textController,

@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:reservation_system/component/UI_textinput/text_input.dart';
-import 'package:reservation_system/component/ui_button/button.dart';
+import 'package:reservation_system/component/button/ui_button.dart';
+import 'package:reservation_system/component/textinput/ui_text_input.dart';
 import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/models/class/user.dart';
 import 'package:reservation_system/models/share_preference/preferences.dart';
@@ -66,40 +66,40 @@ class _SignupScreenState extends State<SignupScreen> {
                     height: 102,
                   ),
                   const SizedBox(height: 20),
-                  TextInput(
+                  UITextInput(
                     hintText: "Full Name",
                     type: "text",
                     validator: Validator.validateName,
                     controller: fullnameController,
                   ),
-                  const SizedBox(height: 12), // ✅ Thêm khoảng cách
+                  const SizedBox(height: 12),
 
-                  TextInput(
+                  UITextInput(
                     hintText: "Phone Number",
                     type: "phone",
                     validator: Validator.validatePhoneNumber,
                     controller: phonenumberController,
                   ),
-                  const SizedBox(height: 12), // ✅ Thêm khoảng cách
+                  const SizedBox(height: 12),
 
-                  TextInput(
+                  UITextInput(
                     hintText: "Email",
                     type: "email",
                     validator: Validator.validateEmail,
                     controller: emailController,
                   ),
-                  const SizedBox(height: 12), // ✅ Thêm khoảng cách
+                  const SizedBox(height: 12),
 
-                  TextInput(
+                  UITextInput(
                     hintText: "Password",
                     type: "password",
                     obscureText: true,
                     controller: passwordController,
                     validator: Validator.validatePassword,
                   ),
-                  const SizedBox(height: 12), // ✅ Thêm khoảng cách
+                  const SizedBox(height: 12),
 
-                  TextInput(
+                  UITextInput(
                     hintText: "Confirm Password",
                     type: "password",
                     obscureText: true,
