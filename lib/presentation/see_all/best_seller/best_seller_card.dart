@@ -5,6 +5,7 @@ class BestSellerCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final String imagePath;
+  final int? reviewCount;
   final VoidCallback? onPressed;
 
   const BestSellerCard({
@@ -13,6 +14,7 @@ class BestSellerCard extends StatelessWidget {
     required this.subtitle,
     required this.imagePath,
     this.onPressed,
+    this.reviewCount,
   });
 
   @override
@@ -38,7 +40,7 @@ class BestSellerCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Image.asset(
+            child: Image.network(
               imagePath,
               width: 100,
               height: 90,
@@ -69,7 +71,7 @@ class BestSellerCard extends StatelessWidget {
                 Row(
                   children: [
                     ...List.generate(
-                      5,
+                      reviewCount!,
                       (index) =>
                           const Icon(Icons.star, color: Colors.red, size: 10),
                     ),
