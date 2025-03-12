@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reservation_system/app_project/todo_project/main.dart';
 import 'package:reservation_system/models/share_preference/preferences.dart';
 import 'package:reservation_system/presentation/reservation/reservation_screen.dart';
 import 'package:reservation_system/presentation/restaurant/restaurant_list.dart';

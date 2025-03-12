@@ -1,15 +1,9 @@
 // ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
-import 'package:reservation_system/component/button/ui_button.dart';
-import 'package:reservation_system/component/textinput/ui_text_input.dart';
 import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/models/class/restaurant.dart';
-import 'package:reservation_system/presentation/reservation/reservation_component/date_section.dart';
-import 'package:reservation_system/presentation/reservation/reservation_component/people_section.dart';
 import 'package:reservation_system/presentation/reservation/reservation_component/tab_button.dart';
-import 'package:reservation_system/presentation/reservation/reservation_component/text_card.dart';
-import 'package:reservation_system/presentation/reservation/reservation_component/time_section.dart';
+import 'package:reservation_system/presentation/reservation/tab_screen/reservation_tab.dart';
 import 'package:reservation_system/services/restaurant_service.dart';
 
 class ReservationScreen extends StatefulWidget {
@@ -21,11 +15,8 @@ class ReservationScreen extends StatefulWidget {
 }
 
 class _ReservationScreenState extends State<ReservationScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController fullNameText = TextEditingController();
-  TextEditingController phoneNumberText = TextEditingController();
-  TextEditingController emailText = TextEditingController();
   Restaurant? restaurantData;
+  int selectedTab = 1;
   @override
   void initState() {
     super.initState();
@@ -52,73 +43,25 @@ class _ReservationScreenState extends State<ReservationScreen> {
       backgroundColor: Color(0xffF6EFE8),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                restaurantData != null
-                    ? _buildHeader(context, restaurantData!)
-                    : Center(child: CircularProgressIndicator()),
+          child: Column(
+            children: [
+              restaurantData != null
+                  ? _buildHeader(context, restaurantData!)
+                  : Center(child: CircularProgressIndicator()),
 
-                TabButton(tabItem: {1: "Reservation", 2: "Menu", 3: "Reviews"}),
+              TabButton(
+                tabItem: {1: "Reservation", 2: "Menu", 3: "Reviews"},
+                onTabSelected: (index) {
+                  setState(() {
+                    selectedTab = index;
+                  });
+                },
+              ),
 
-                TextCard(
-                  text: "Must have vaccinated",
-                  itemIcon: Icon(Icons.local_hospital_sharp),
-                ),
-                TextCard(
-                  text: "Deposit for reservation",
-                  itemIcon: Icon(Icons.money),
-                ),
-
-                DateSection(title: "Pick your date", body: Container()),
-
-                TimeSection(title: "Pick your time"),
-
-                PeopleSection(title: "How many people?"),
-
-                Row(
-                  children: [
-                    Checkbox(value: false, onChanged: (bool? value) {}),
-                    Text(
-                      "Vaccine green passes",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildSectionTitle("Notes"),
-                      _buildTextField(),
-                      _buildSectionTitle("Information"),
-                      UITextInput(
-                        hintText: "Full name",
-                        type: "text",
-                        controller: fullNameText,
-                      ),
-                      UITextInput(
-                        hintText: "Phone Number",
-                        type: "number",
-                        controller: phoneNumberText,
-                      ),
-                      UITextInput(
-                        hintText: "Email",
-                        type: "email",
-                        controller: emailText,
-                      ),
-                    ],
-                  ),
-                ),
-                CustomButton(text: "REVERSE", onPressed: () {}),
-              ],
-            ),
+              if (selectedTab == 1) ReservationTab(),
+              if (selectedTab == 2) Text("Menu Screen"),
+              if (selectedTab == 3) Text("Reviews Screen"),
+            ],
           ),
         ),
       ),
@@ -210,32 +153,5 @@ Widget _buildHeader(BuildContext context, Restaurant restaurant) {
         ),
       ],
     ),
-  );
-}
-
-Widget _buildSectionTitle(String title) {
-  return Padding(
-    padding: EdgeInsets.only(bottom: 8, top: 16),
-    child: Text(
-      title,
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w600,
-        color: Color(0xff483332),
-      ),
-    ),
-  );
-}
-
-Widget _buildTextField() {
-  return Container(
-    width: 349,
-    height: 69,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(12),
-    ),
-    padding: EdgeInsets.symmetric(horizontal: 16), // Giúp chữ không bị sát mép
-    child: TextFormField(decoration: InputDecoration(border: InputBorder.none)),
   );
 }

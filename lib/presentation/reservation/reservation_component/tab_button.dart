@@ -2,14 +2,19 @@ import 'package:flutter/material.dart';
 
 class TabButton extends StatefulWidget {
   final Map<int, String> tabItem;
-  const TabButton({super.key, required this.tabItem});
+  final Function(int) onTabSelected;
+  const TabButton({
+    super.key,
+    required this.tabItem,
+    required this.onTabSelected,
+  });
 
   @override
   State<TabButton> createState() => _TabButtonState();
 }
 
 class _TabButtonState extends State<TabButton> {
-  int selectedtab = 0;
+  int selectedtab = 1;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,6 +36,7 @@ class _TabButtonState extends State<TabButton> {
                     setState(() {
                       selectedtab = index;
                     });
+                    widget.onTabSelected(index);
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
