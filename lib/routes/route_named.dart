@@ -4,7 +4,9 @@ import 'package:reservation_system/presentation/home/home_screen.dart';
 import 'package:reservation_system/presentation/login/login_screen.dart';
 import 'package:reservation_system/presentation/notification/notification_screen.dart';
 import 'package:reservation_system/presentation/onboard/onboard_screen.dart';
+import 'package:reservation_system/presentation/reservation/reservation_screen.dart';
 import 'package:reservation_system/presentation/reset_password/reset_pass_screen.dart';
+import 'package:reservation_system/presentation/restaurant/restaurant_list.dart';
 import 'package:reservation_system/presentation/see_all/best_seller/best_seller_screen.dart';
 import 'package:reservation_system/presentation/signup/signup_screen.dart';
 import 'package:reservation_system/presentation/splash/splash.dart';
@@ -21,6 +23,8 @@ class Routenamed {
   static const String splash = "/splash";
   static const String notify = "/notify";
   static const String seeAllBestSeller = "/bestSeller";
+  static const String seeAllRestaurant = "/restaurant";
+  static const String reservationscreen = "/reservation";
 
   static Route<dynamic>? generateRouted(RouteSettings settings) {
     switch (settings.name) {
@@ -87,6 +91,17 @@ class Routenamed {
       case seeAllBestSeller:
         return MaterialPageRoute(
           builder: (context) => const BestSellerScreen(),
+        );
+
+      case seeAllRestaurant:
+        return MaterialPageRoute(
+          builder: (context) => const RestaurantListScreen(),
+        );
+
+      case reservationscreen:
+        final restaurantId = settings.arguments as String?;
+        return MaterialPageRoute(
+          builder: (context) => ReservationScreen(restaurantId: restaurantId),
         );
 
       default:

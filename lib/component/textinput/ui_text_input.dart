@@ -32,45 +32,48 @@ class _UITextInputState extends State<UITextInput> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: widget.controller,
-      keyboardType: typeInput(widget.type),
-      obscureText: widget.type == "password" ? isShow : false,
-      decoration: InputDecoration(
-        suffixIcon:
-            widget.type == "password"
-                ? IconButton(
-                  onPressed: () {
-                    setState(() {
-                      isShow = !isShow;
-                    });
-                  },
-                  icon: Icon(
-                    isShow ? Icons.visibility_off : Icons.visibility,
-                    color: Colors.grey,
-                  ),
-                )
-                : null,
-        filled: true,
-        fillColor: Colors.white,
-        hintText: widget.hintText,
-        alignLabelWithHint: true,
-        hintStyle: TextStyle(
-          color: Colors.grey,
-          fontSize: 14,
-          fontFamily: 'Tahoma',
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+        controller: widget.controller,
+        keyboardType: typeInput(widget.type),
+        obscureText: widget.type == "password" ? isShow : false,
+        decoration: InputDecoration(
+          suffixIcon:
+              widget.type == "password"
+                  ? IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isShow = !isShow;
+                      });
+                    },
+                    icon: Icon(
+                      isShow ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.grey,
+                    ),
+                  )
+                  : null,
+          filled: true,
+          fillColor: Colors.white,
+          hintText: widget.hintText,
+          alignLabelWithHint: true,
+          hintStyle: TextStyle(
+            color: Colors.grey,
+            fontSize: 14,
+            fontFamily: 'Tahoma',
+          ),
+          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.white, width: 2),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.blue, width: 2),
+          ),
         ),
-        contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.white, width: 2),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.blue, width: 2),
-        ),
+        validator: widget.validator,
       ),
-      validator: widget.validator,
     );
   }
 }

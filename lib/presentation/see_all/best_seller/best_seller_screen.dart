@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:reservation_system/component/button/ui_dropdown_button.dart';
 import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/models/class/product.dart';
-import 'package:reservation_system/models/service/product_service.dart';
+import 'package:reservation_system/services/product_service.dart';
 import 'package:reservation_system/models/share_preference/preferences.dart';
-import 'package:reservation_system/presentation/home/data/home_data.dart';
 import 'package:reservation_system/presentation/see_all/best_seller/best_seller_card.dart';
 
 class BestSellerScreen extends StatefulWidget {
@@ -65,17 +65,12 @@ class _BestSellerScreenState extends State<BestSellerScreen> {
                 color: Color(0xff483332),
               ),
             ),
-            DropdownButton(
+            UIDropdownButton(
+              itemList: categories,
               value: selectedCategory,
               onChanged: (value) {
-                if (value != null) {
-                  filterCategories(value);
-                }
+                value != null ? filterCategories(value) : "";
               },
-              items:
-                  categories.map((e) {
-                    return DropdownMenuItem(value: e, child: Text(e));
-                  }).toList(),
             ),
           ],
         ),

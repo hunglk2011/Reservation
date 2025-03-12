@@ -56,6 +56,9 @@ class $AssetImagesGen {
   AssetGenImage get imgSlideshow =>
       const AssetGenImage('asset/images/img_slideshow.png');
 
+  AssetGenImage get imgRestaurantBackground =>
+      const AssetGenImage('asset/images/img_restaurant_background.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
     imgBeef,

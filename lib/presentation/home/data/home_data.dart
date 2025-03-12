@@ -51,5 +51,20 @@ class HomePageData {
       address: "No. 235 Nguyen Van Cu, Nguyen Cu Trinh Ward, District 10, HCMC",
       image: Assets.images.imgRestaurant.path,
     ),
+    Restaurant(
+      nameRestaurant: "AN BBQ PHAM VAN DONG",
+      address: "50, Linh Trung Ward, District Binh Thanh, HCMC",
+      image: Assets.images.imgRestaurant.path,
+    ),
+    Restaurant(
+      nameRestaurant: "AN BBQ LE VAN SY",
+      address: "50, 10 Ward, District 3, HCMC",
+      image: Assets.images.imgRestaurant.path,
+    ),
+    Restaurant(
+      nameRestaurant: "AN BBQ TRUONG CHINH",
+      address: "50, 4 Ward, District Tan Binh, HCMC",
+      image: Assets.images.imgRestaurant.path,
+    ),
   ];
 }

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:reservation_system/gen/assets.gen.dart';
+import 'package:reservation_system/presentation/home/home_component/reserve_button.dart';
 
 class RestaurantCard extends StatefulWidget {
   final String nameRestaurant;
   final String address;
   String? image;
+  VoidCallback? onchanged;
   RestaurantCard({
     super.key,
     required this.address,
     required this.nameRestaurant,
     this.image,
+    this.onchanged,
   });
 
   @override
@@ -30,8 +32,8 @@ class _RestaurantCardState extends State<RestaurantCard> {
             top: 0,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: Image.asset(
-                Assets.images.imgRestaurant.path,
+              child: Image.network(
+                widget.image.toString(),
                 width: 327,
                 height: 120,
                 fit: BoxFit.cover,
@@ -80,12 +82,7 @@ class _RestaurantCardState extends State<RestaurantCard> {
                     ),
                   ),
                   SizedBox(width: 12),
-                  Image.asset(
-                    Assets.images.imgLogoIcon.path,
-                    width: 50,
-                    height: 50,
-                    fit: BoxFit.contain,
-                  ),
+                  ReserveButton(text: "reserve", onPressed: widget.onchanged),
                 ],
               ),
             ),
