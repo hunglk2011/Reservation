@@ -11,5 +11,17 @@ class RestaurantBloc extends Bloc<RestaurantEven, RestaurantState> {
       List<Restaurant> rest = await RestaurantService.getRestaurantFromServer();
       emit(RestaurantRefreshedSuccess(restaurantServer: rest));
     });
+
+    on<RestaurantCreate>((event, emit) async {
+      final name = event.nameRestaurant;
+      final address = event.address;
+      final image = event.image;
+      await RestaurantService.createNewRestaurant(
+        nameRestaurant: name,
+        address: address,
+        image: image,
+      );
+      add(RestaurantRefresh());
+    });
   }
 }
