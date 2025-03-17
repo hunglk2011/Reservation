@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:reservation_system/models/class/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppPreference {
@@ -29,5 +30,11 @@ class AppPreference {
   static Future<void> removeData(String key) async {
     if (prefs == null) return;
     await prefs!.remove(key);
+  }
+
+  static Future<void> updateData(User? user, String key) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var value = jsonEncode(user?.toJson());
+    await prefs.setString(key, value);
   }
 }

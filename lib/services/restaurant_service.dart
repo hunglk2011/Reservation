@@ -78,4 +78,13 @@ class RestaurantService {
       return null;
     }
   }
+
+  static Future<bool> deleteRestaurant({required String id}) async {
+    var url = Uri.https(domain, '/restaurant/$id');
+    var response = await http.delete(url, headers: header);
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
 }

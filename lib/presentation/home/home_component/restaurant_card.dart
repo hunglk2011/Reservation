@@ -6,12 +6,16 @@ class RestaurantCard extends StatefulWidget {
   final String address;
   String? image;
   VoidCallback? onchanged;
+  bool? hasDelete;
+  VoidCallback? onDelete;
   RestaurantCard({
     super.key,
     required this.address,
     required this.nameRestaurant,
     this.image,
     this.onchanged,
+    this.onDelete,
+    this.hasDelete = true,
   });
 
   @override
@@ -82,7 +86,23 @@ class _RestaurantCardState extends State<RestaurantCard> {
                     ),
                   ),
                   SizedBox(width: 12),
-                  ReserveButton(text: "reserve", onPressed: widget.onchanged),
+                  widget.hasDelete == true
+                      ? Row(
+                        children: [
+                          ReserveButton(
+                            text: "reserve",
+                            onPressed: widget.onchanged,
+                          ),
+                          IconButton(
+                            onPressed: widget.onDelete,
+                            icon: Icon(Icons.delete),
+                          ),
+                        ],
+                      )
+                      : ReserveButton(
+                        text: "reserve",
+                        onPressed: widget.onchanged,
+                      ),
                 ],
               ),
             ),

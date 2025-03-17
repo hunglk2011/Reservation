@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffF6EFE8),
-      drawer: DrawerMenu(userName: widget.name),
+      drawer: DrawerMenu(),
       appBar: AppBar(
         actions: [
           IconButton(

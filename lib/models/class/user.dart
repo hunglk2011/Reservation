@@ -38,4 +38,17 @@ class User {
       confirmPassword: json[_confirmKey] as String? ?? "",
     );
   }
+
+  User copyWith({
+    String? name,
+    String? avatarPath,
+    String? phone,
+    String? email,
+    String? password,
+  }) => User(
+    name: name ?? this.name,
+    phoneNumber: phone ?? phoneNumber,
+    email: email ?? this.email,
+    password: password ?? this.password,
+  );
 }

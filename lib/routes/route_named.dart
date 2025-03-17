@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:reservation_system/presentation/change_password/change_password.dart';
 import 'package:reservation_system/presentation/forgot_password/forgot_password_screen.dart';
 import 'package:reservation_system/presentation/home/home_screen.dart';
 import 'package:reservation_system/presentation/login/login_screen.dart';
 import 'package:reservation_system/presentation/notification/notification_screen.dart';
 import 'package:reservation_system/presentation/onboard/onboard_screen.dart';
+import 'package:reservation_system/presentation/profile/edit_profile.dart';
 import 'package:reservation_system/presentation/reservation/reservation_screen.dart';
 import 'package:reservation_system/presentation/reset_password/reset_pass_screen.dart';
 import 'package:reservation_system/presentation/restaurant/restaurant_list.dart';
@@ -25,6 +27,8 @@ class Routenamed {
   static const String seeAllBestSeller = "/bestSeller";
   static const String seeAllRestaurant = "/restaurant";
   static const String reservationscreen = "/reservation";
+  static const String profilescreen = "/profile";
+  static const String changepass = "/changePass";
 
   static Route<dynamic>? generateRouted(RouteSettings settings) {
     switch (settings.name) {
@@ -35,20 +39,7 @@ class Routenamed {
         return MaterialPageRoute(builder: (context) => const OnboardScreen());
 
       case login:
-        final dataReset = settings.arguments as Map<String, dynamic>?;
-        final passKey = dataReset?["passKey"] as String? ?? "";
-        final phoneKey = dataReset?["phoneKey"] as String? ?? "";
-        final nameKey = dataReset?["nameKey"] as String? ?? "";
-        final emailKey = dataReset?["emailKey"] as String? ?? "";
-        return MaterialPageRoute(
-          builder:
-              (context) => LoginScreen(
-                newPassword: passKey,
-                phoneNumber: phoneKey,
-                name: nameKey,
-                email: emailKey,
-              ),
-        );
+        return MaterialPageRoute(builder: (context) => LoginScreen());
 
       case signup:
         return MaterialPageRoute(builder: (context) => const SignupScreen());
@@ -103,6 +94,12 @@ class Routenamed {
         return MaterialPageRoute(
           builder: (context) => ReservationScreen(restaurantId: restaurantId),
         );
+
+      case profilescreen:
+        return MaterialPageRoute(builder: (context) => EditProfile());
+
+      case changepass:
+        return MaterialPageRoute(builder: (context) => ChangePassword());
 
       default:
         return MaterialPageRoute(
