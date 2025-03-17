@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reservation_system/bloc/bloC/authentication_bloc/authentication_bloc.dart';
 import 'package:reservation_system/models/share_preference/preferences.dart';
-import 'package:reservation_system/presentation/reservation/reservation_screen.dart';
-import 'package:reservation_system/presentation/restaurant/restaurant_list.dart';
-import 'package:reservation_system/presentation/see_all/best_seller/best_seller_screen.dart';
 import 'package:reservation_system/routes/route_named.dart';
 import 'package:reservation_system/todo_project/bloc/restaurant_bloc.dart';
 import 'package:reservation_system/todo_project/main.dart';
 
-import 'todo_project/bloc/restaurant_even.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreference.init();
-  runApp(MyApp());
+  runApp(Reservation());
 }
 
 class MyApp extends StatelessWidget {
@@ -22,8 +18,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => RestaurantBloc()..add(RestaurantRefresh()),
+      create: (context) => RestaurantBloc(),
       child: MaterialApp(home: TodoScreen(), debugShowCheckedModeBanner: false),
+    );
+  }
+}
+
+class Reservation extends StatelessWidget {
+  const Reservation({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AuthenticationBloc(),
+      child: MaterialApp(
+        initialRoute: Routenamed.splash,
+        onGenerateRoute: Routenamed.generateRouted,
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
