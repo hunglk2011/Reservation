@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
 
 class PickDay extends StatefulWidget {
-  const PickDay({super.key});
+  final int selectedDay;
+  final Function(int) onDaySelected;
+
+  const PickDay({
+    super.key,
+    required this.selectedDay,
+    required this.onDaySelected,
+  });
 
   @override
   State<PickDay> createState() => _PickDayState();
 }
 
 class _PickDayState extends State<PickDay> {
-  DateTime selectedDate = DateTime.now();
-  int selectedDay = DateTime.now().day;
+  late int selectedDay;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedDay = widget.selectedDay;
+  }
+
   List<DateTime> getWeekDates() {
-    DateTime startDate = DateTime(
-      selectedDate.year,
-      selectedDate.month,
-      selectedDate.day - 2,
-    );
+    DateTime today = DateTime.now();
+    DateTime startDate = DateTime(today.year, today.month, today.day - 2);
     return List.generate(6, (index) => startDate.add(Duration(days: index)));
   }
 
@@ -36,6 +46,7 @@ class _PickDayState extends State<PickDay> {
               setState(() {
                 selectedDay = date.day;
               });
+              widget.onDaySelected(selectedDay);
             },
             child: Container(
               width: 49,

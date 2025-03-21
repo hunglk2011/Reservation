@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 
 class PeopleSection extends StatefulWidget {
-  const PeopleSection({super.key, required this.title, this.onPress});
+  const PeopleSection({
+    super.key,
+    required this.title,
+    this.onPress,
+    this.onPeopleChanged,
+  });
 
   final String title;
   final VoidCallback? onPress;
+  final ValueChanged<int>? onPeopleChanged;
 
   @override
   State<PeopleSection> createState() => _PeopleSectionState();
@@ -12,6 +18,15 @@ class PeopleSection extends StatefulWidget {
 
 class _PeopleSectionState extends State<PeopleSection> {
   int numberPeople = 0;
+  void _updateNumber(int value) {
+    setState(() {
+      numberPeople = value;
+    });
+    if (widget.onPeopleChanged != null) {
+      widget.onPeopleChanged!(numberPeople);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -39,14 +54,14 @@ class _PeopleSectionState extends State<PeopleSection> {
               countBox(context, Icon(Icons.remove), () {
                 setState(() {
                   if (numberPeople > 0) {
-                    numberPeople--;
+                    _updateNumber(numberPeople - 1);
                   }
                 });
               }),
               Text(numberPeople.toString()),
               countBox(context, Icon(Icons.add), () {
                 setState(() {
-                  numberPeople++;
+                  _updateNumber(numberPeople + 1);
                 });
               }),
             ],

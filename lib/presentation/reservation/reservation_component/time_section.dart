@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class TimeSection extends StatefulWidget {
   final String title;
-  final VoidCallback? onPress;
-  const TimeSection({super.key, required this.title, this.onPress});
+  final Function(TimeOfDay)? onTimeChanged;
+  const TimeSection({super.key, required this.title, this.onTimeChanged});
 
   @override
   State<TimeSection> createState() => _TimeSectionState();
@@ -46,6 +46,7 @@ class _TimeSectionState extends State<TimeSection> {
               setState(() {
                 selectedTime = pickedTime;
               });
+              widget.onTimeChanged?.call(selectedTime!);
             }
           },
           child: Text(

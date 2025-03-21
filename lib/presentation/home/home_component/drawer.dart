@@ -6,7 +6,6 @@ import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/presentation/home/home_component/menu_card.dart';
 import 'package:reservation_system/presentation/home/home_component/reserve_button.dart';
 import 'package:reservation_system/routes/route_named.dart';
-
 import '../../../bloc/event/authentication_event/authentication_event.dart';
 
 class DrawerMenu extends StatefulWidget {
@@ -128,7 +127,7 @@ Widget _buildMenuOptions(BuildContext context) {
                   name: "Log out",
                   iconName: Icon(Icons.logout),
                   onPressed: () async {
-                    context.read<AuthenticationBloc>().add(LogoutRequested());
+                    // context.read<AuthenticationBloc>().add(LogoutRequested());
                     Navigator.pushReplacementNamed(context, Routenamed.login);
                   },
                 ),

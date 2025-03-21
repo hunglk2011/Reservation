@@ -58,7 +58,11 @@ Widget _buildBody(BuildContext context, List<Restaurant> restaurants) =>
             nameRestaurant: restaurants[index].nameRestaurant ?? "",
             image: restaurants[index].image,
             onchanged: () {
-              Navigator.pushNamed(context, Routenamed.reservationscreen);
+              Navigator.pushNamed(
+                context,
+                Routenamed.reservationscreen,
+                arguments: restaurants[index].id.toString(),
+              );
             },
           ),
       separatorBuilder: (context, index) => Divider(),

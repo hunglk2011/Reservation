@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:reservation_system/component/button/ui_button.dart';
 import 'package:reservation_system/gen/assets.gen.dart';
+import 'package:reservation_system/models/class/reservation.dart';
 import 'package:reservation_system/routes/route_named.dart';
 
-class ConfirmReservation extends StatelessWidget {
-  const ConfirmReservation({super.key});
+class ConfirmReservation extends StatefulWidget {
+  final Reservation? reservation;
+  const ConfirmReservation({super.key, this.reservation});
 
+  @override
+  State<ConfirmReservation> createState() => _ConfirmReservationState();
+}
+
+class _ConfirmReservationState extends State<ConfirmReservation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +54,10 @@ class ConfirmReservation extends StatelessWidget {
                       CustomButton(
                         text: "Reservation",
                         onPressed: () {
-                          Navigator.pushNamed(context, Routenamed.payment);
+                          Navigator.pushReplacementNamed(
+                            context,
+                            Routenamed.payment,
+                          );
                         },
                       ),
                     ],
@@ -60,43 +70,92 @@ class ConfirmReservation extends StatelessWidget {
       ),
     );
   }
-}
 
-Widget _buildHeader(BuildContext context) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Text(
-        "Your Reservation",
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
-      IconButton(onPressed: () {}, icon: Icon(Icons.close)),
-    ],
-  );
-}
+  Widget _buildHeader(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "Your Reservation",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        IconButton(onPressed: () {}, icon: Icon(Icons.close)),
+      ],
+    );
+  }
 
-Widget _buildReservationInfo() {
-  return Padding(
-    padding: const EdgeInsets.all(6.0),
-    child: Container(
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Color(0xffF6EFE8),
-        borderRadius: BorderRadius.circular(10),
+  Widget _buildReservationInfo() {
+    return Padding(
+      padding: const EdgeInsets.all(6.0),
+      child: Container(
+        padding: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Color(0xffF6EFE8),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          children: [
+            _buildInfoRow(
+              Icons.location_on,
+              widget.reservation!.restaurantInfo?.address ?? "",
+            ),
+            _buildInfoRow(
+              Icons.calendar_today,
+              widget.reservation!.reservationDate != null
+                  ? "${widget.reservation!.reservationDate!.day}/${widget.reservation!.reservationDate!.month}/${widget.reservation!.reservationDate!.year}"
+                  : DateTime.now().toString(),
+            ),
+
+            _buildInfoRow(
+              Icons.access_time,
+              widget.reservation!.timeRange != null
+                  ? widget.reservation!.timeRange!
+                  : TimeOfDay.now().toString(),
+            ),
+            _buildInfoRow(
+              Icons.people,
+              widget.reservation!.peopleCount.toString(),
+            ),
+
+            _buildInfoRow(Icons.note, widget.reservation!.notes.toString()),
+          ],
+        ),
       ),
-      child: Column(
-        children: [
-          _buildInfoRow(
-            Icons.location_on,
-            'Ann BBQ Su Van Hanh\nNo. 116 Su Van Hanh, Ward 12, Dist 10, HCM',
-          ),
-          _buildInfoRow(Icons.calendar_today, 'Wednesday, 25th Sep 2021'),
-          _buildInfoRow(Icons.access_time, '18h00 - 18h30'),
-          _buildInfoRow(Icons.people, '2 People'),
-        ],
+    );
+  }
+
+  Widget _buildUserInfo() {
+    return Padding(
+      padding: const EdgeInsets.all(6.0),
+      child: Container(
+        padding: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Color(0xffF6EFE8),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 22,
+              backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+            ),
+            SizedBox(width: 12),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.reservation!.userInfo?.name ?? "",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(widget.reservation!.userInfo?.phoneNumber ?? ""),
+                Text(widget.reservation!.userInfo?.email ?? ""),
+              ],
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 Widget _buildInfoRow(IconData icon, String text) {
@@ -108,39 +167,6 @@ Widget _buildInfoRow(IconData icon, String text) {
         SizedBox(width: 8),
         Expanded(child: Text(text, style: TextStyle(fontSize: 14))),
       ],
-    ),
-  );
-}
-
-Widget _buildUserInfo() {
-  return Padding(
-    padding: const EdgeInsets.all(6.0),
-    child: Container(
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Color(0xffF6EFE8),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 22,
-            backgroundImage: NetworkImage('https://via.placeholder.com/150'),
-          ),
-          SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Mary Nguyen',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text('0987657992'),
-              Text('mary.nguyen@gmail.com'),
-            ],
-          ),
-        ],
-      ),
     ),
   );
 }

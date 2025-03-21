@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reservation_system/models/class/reservation.dart';
 import 'package:reservation_system/presentation/change_password/change_password.dart';
 import 'package:reservation_system/presentation/confirm_reservation/confirm_reservation.dart';
 import 'package:reservation_system/presentation/confirm_reservation/reservation_payment.dart';
@@ -100,7 +101,14 @@ class Routenamed {
         );
 
       case confirmReservation:
-        return MaterialPageRoute(builder: (context) => ConfirmReservation());
+        final data = settings.arguments as Map<String, dynamic>;
+        final reservationData = Reservation.fromJson(
+          data["reservation"] as Map<String, dynamic>,
+        );
+        return MaterialPageRoute(
+          builder:
+              (context) => ConfirmReservation(reservation: reservationData),
+        );
 
       case payment:
         return MaterialPageRoute(builder: (context) => ReservationPayment());

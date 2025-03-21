@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reservation_system/bloc/bloC/authentication_bloc/authentication_bloc.dart';
+import 'package:reservation_system/bloc/bloC/reservation_bloc/reservation_bloc.dart';
 import 'package:reservation_system/bloc/bloC/restaurant_list_bloc/restaurant_list_bloc.dart';
 import 'package:reservation_system/models/share_preference/preferences.dart';
-import 'package:reservation_system/presentation/confirm_reservation/confirm_reservation.dart';
-import 'package:reservation_system/presentation/confirm_reservation/reservation_payment.dart';
 import 'package:reservation_system/routes/route_named.dart';
 import 'package:reservation_system/todo_project/bloc/restaurant_bloc.dart';
 import 'package:reservation_system/todo_project/main.dart';
@@ -36,6 +35,7 @@ class Reservation extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthenticationBloc()),
         BlocProvider(create: (context) => RestaurantListBloc()),
+        BlocProvider(create: (context) => ReservationBloc()),
       ],
       child: MaterialApp(
         initialRoute: Routenamed.splash,

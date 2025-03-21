@@ -1,18 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reservation_system/bloc/bloC/authentication_bloc/authentication_bloc.dart';
+import 'package:reservation_system/bloc/state/authentication_state/authentication_state.dart';
 import 'package:reservation_system/component/button/ui_button.dart';
 import 'package:reservation_system/component/textinput/ui_text_input.dart';
+import 'package:reservation_system/models/class/reservation.dart';
+import 'package:reservation_system/models/class/restaurant.dart';
+import 'package:reservation_system/models/class/user.dart';
+import 'package:reservation_system/models/validator_login/validator.dart';
 import 'package:reservation_system/presentation/reservation/reservation_component/date_section.dart';
 import 'package:reservation_system/presentation/reservation/reservation_component/people_section.dart';
 import 'package:reservation_system/presentation/reservation/reservation_component/text_card.dart';
 import 'package:reservation_system/presentation/reservation/reservation_component/time_section.dart';
 import 'package:reservation_system/routes/route_named.dart';
 
-class ReservationTab extends StatelessWidget {
-  ReservationTab({super.key});
+class ReservationTab extends StatefulWidget {
+  final Restaurant? restaurantInfo;
+  const ReservationTab({super.key, this.restaurantInfo});
+
+  @override
+  State<ReservationTab> createState() => _ReservationTabState();
+}
+
+class _ReservationTabState extends State<ReservationTab> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   final TextEditingController fullNameText = TextEditingController();
+
   final TextEditingController phoneNumberText = TextEditingController();
+
   final TextEditingController emailText = TextEditingController();
+
+  final TextEditingController noteController = TextEditingController();
+  DateTime? selectedDate;
+  int? peopleCount = 0;
+  TimeOfDay? selectedTime;
+
+  @override
+  void initState() {
+    super.initState();
+    final state = context.read<AuthenticationBloc>().state;
+    if (state is AuththenticateSuccess) {
+      fullNameText.text = state.user.name ?? "";
+      phoneNumberText.text = state.user.phoneNumber ?? "";
+      emailText.text = state.user.email ?? "";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +62,33 @@ class ReservationTab extends StatelessWidget {
             itemIcon: Icon(Icons.money),
           ),
 
-          DateSection(title: "Pick your date", body: Container()),
+          DateSection(
+            title: "Pick your date",
+            body: Container(),
+            onDateChanged: (date) {
+              setState(() {
+                selectedDate = date;
+              });
+            },
+          ),
 
-          TimeSection(title: "Pick your time"),
+          TimeSection(
+            title: "Pick your time",
+            onTimeChanged: (time) {
+              setState(() {
+                selectedTime = time;
+              });
+            },
+          ),
 
-          PeopleSection(title: "How many people?"),
+          PeopleSection(
+            title: "How many people?",
+            onPeopleChanged: (count) {
+              setState(() {
+                peopleCount = count;
+              });
+            },
+          ),
 
           Row(
             children: [
@@ -47,34 +102,57 @@ class ReservationTab extends StatelessWidget {
 
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildSectionTitle("Notes"),
-                _buildTextField(),
-                _buildSectionTitle("Information"),
-                UITextInput(
-                  hintText: "Full name",
-                  type: "text",
-                  controller: fullNameText,
-                ),
-                UITextInput(
-                  hintText: "Phone Number",
-                  type: "number",
-                  controller: phoneNumberText,
-                ),
-                UITextInput(
-                  hintText: "Email",
-                  type: "email",
-                  controller: emailText,
-                ),
-              ],
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSectionTitle("Notes"),
+                  _buildTextField(noteController),
+                  _buildSectionTitle("Information"),
+                  UITextInput(
+                    hintText: "Full name",
+                    type: "text",
+                    controller: fullNameText,
+                  ),
+                  UITextInput(
+                    hintText: "Phone Number",
+                    type: "number",
+                    controller: phoneNumberText,
+                  ),
+                  UITextInput(
+                    hintText: "Email",
+                    type: "email",
+                    controller: emailText,
+                  ),
+                ],
+              ),
             ),
           ),
           CustomButton(
             text: "REVERSE",
             onPressed: () {
-              Navigator.pushNamed(context, Routenamed.confirmReservation);
+              final reservationData = Reservation(
+                createdDate: DateTime.now(),
+                reservationDate: selectedDate,
+                restaurantInfo: widget.restaurantInfo,
+                peopleCount: peopleCount,
+                timeRange:
+                    selectedTime != null
+                        ? "${selectedTime!.hour}:${selectedTime!.minute}"
+                        : "",
+                userInfo: User(
+                  name: fullNameText.text,
+                  phoneNumber: phoneNumberText.text,
+                  email: emailText.text,
+                ),
+                notes: noteController.text,
+              );
+              Navigator.pushNamed(
+                context,
+                Routenamed.confirmReservation,
+                arguments: {"reservation": reservationData.toJson()},
+              );
             },
           ),
         ],
@@ -97,7 +175,7 @@ Widget _buildSectionTitle(String title) {
   );
 }
 
-Widget _buildTextField() {
+Widget _buildTextField(TextEditingController noteController) {
   return Container(
     width: 349,
     height: 69,
@@ -105,7 +183,12 @@ Widget _buildTextField() {
       color: Colors.white,
       borderRadius: BorderRadius.circular(12),
     ),
-    padding: EdgeInsets.symmetric(horizontal: 16), // Giúp chữ không bị sát mép
-    child: TextFormField(decoration: InputDecoration(border: InputBorder.none)),
+    padding: EdgeInsets.symmetric(horizontal: 16),
+    child: TextFormField(
+      decoration: InputDecoration(border: InputBorder.none),
+      maxLines: 3,
+      controller: noteController,
+      validator: Validator.validateEmail,
+    ),
   );
 }

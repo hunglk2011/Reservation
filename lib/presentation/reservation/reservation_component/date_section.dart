@@ -6,12 +6,12 @@ import 'package:reservation_system/presentation/reservation/reservation_data/res
 class DateSection extends StatefulWidget {
   final Widget body;
   final String title;
-  final VoidCallback? onPress;
+  final Function(DateTime) onDateChanged;
   const DateSection({
     super.key,
     required this.title,
     required this.body,
-    this.onPress,
+    required this.onDateChanged,
   });
 
   @override
@@ -20,6 +20,17 @@ class DateSection extends StatefulWidget {
 
 class _DateSectionState extends State<DateSection> {
   int selectedYear = DateTime.now().year;
+  String selectedMonth = MonthData.month.first;
+  int selectedDay = DateTime.now().day;
+
+  void _updateSelectedDate() {
+    final newDate = DateTime(
+      selectedYear,
+      MonthData.month.indexOf(selectedMonth) + 1,
+      selectedDay,
+    );
+    widget.onDateChanged(newDate);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +58,10 @@ class _DateSectionState extends State<DateSection> {
         UIDropdownButton(
           itemList: MonthData.month,
           value: MonthData.month.first,
+          onChanged: (value) {
+            selectedMonth = value!;
+            _updateSelectedDate();
+          },
         ),
 
         DropdownButton<int>(
@@ -58,14 +73,23 @@ class _DateSectionState extends State<DateSection> {
           onChanged: (value) {
             setState(() {
               selectedYear = value!;
+              _updateSelectedDate();
             });
           },
         ),
       ],
     );
   }
-}
 
-Widget _buildbody(BuildContext context) {
-  return PickDay();
+  Widget _buildbody(BuildContext context) {
+    return PickDay(
+      selectedDay: selectedDay,
+      onDaySelected: (day) {
+        setState(() {
+          selectedDay = day;
+          _updateSelectedDate();
+        });
+      },
+    );
+  }
 }
