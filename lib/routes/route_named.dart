@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reservation_system/presentation/change_password/change_password.dart';
+import 'package:reservation_system/presentation/confirm_reservation/confirm_reservation.dart';
+import 'package:reservation_system/presentation/confirm_reservation/reservation_payment.dart';
 import 'package:reservation_system/presentation/forgot_password/forgot_password_screen.dart';
 import 'package:reservation_system/presentation/home/home_screen.dart';
 import 'package:reservation_system/presentation/login/login_screen.dart';
@@ -27,6 +29,8 @@ class Routenamed {
   static const String seeAllBestSeller = "/bestSeller";
   static const String seeAllRestaurant = "/restaurant";
   static const String reservationscreen = "/reservation";
+  static const String confirmReservation = "/confirmReservation";
+  static const String payment = "/payment";
   static const String profilescreen = "/profile";
   static const String changepass = "/changePass";
 
@@ -94,6 +98,12 @@ class Routenamed {
         return MaterialPageRoute(
           builder: (context) => ReservationScreen(restaurantId: restaurantId),
         );
+
+      case confirmReservation:
+        return MaterialPageRoute(builder: (context) => ConfirmReservation());
+
+      case payment:
+        return MaterialPageRoute(builder: (context) => ReservationPayment());
 
       case profilescreen:
         return MaterialPageRoute(builder: (context) => EditProfile());

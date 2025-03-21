@@ -5,6 +5,7 @@ import 'package:reservation_system/presentation/reservation/reservation_componen
 import 'package:reservation_system/presentation/reservation/reservation_component/people_section.dart';
 import 'package:reservation_system/presentation/reservation/reservation_component/text_card.dart';
 import 'package:reservation_system/presentation/reservation/reservation_component/time_section.dart';
+import 'package:reservation_system/routes/route_named.dart';
 
 class ReservationTab extends StatelessWidget {
   ReservationTab({super.key});
@@ -70,7 +71,12 @@ class ReservationTab extends StatelessWidget {
               ],
             ),
           ),
-          CustomButton(text: "REVERSE", onPressed: () {}),
+          CustomButton(
+            text: "REVERSE",
+            onPressed: () {
+              Navigator.pushNamed(context, Routenamed.confirmReservation);
+            },
+          ),
         ],
       ),
     );

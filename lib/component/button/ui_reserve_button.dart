@@ -8,6 +8,7 @@ class UIReserveButton extends StatefulWidget {
     super.key,
     required this.text,
     required this.onPressed,
+    required String title,
   });
 
   @override

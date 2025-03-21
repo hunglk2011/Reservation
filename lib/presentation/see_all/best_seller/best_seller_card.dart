@@ -77,7 +77,11 @@ class BestSellerCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     const Spacer(),
-                    UIReserveButton(text: "Reserve", onPressed: onPressed),
+                    UIReserveButton(
+                      text: "Reserve",
+                      onPressed: onPressed,
+                      title: '',
+                    ),
                   ],
                 ),
               ],

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reservation_system/bloc/bloC/restaurant_list_bloc/restaurant_list_bloc.dart';
+import 'package:reservation_system/bloc/event/restaurant_list_event/restaurant_list_event.dart';
+import 'package:reservation_system/bloc/state/restaurant_list_state/restaurant_list_state.dart';
 import 'package:reservation_system/component/button/ui_dropdown_button.dart';
 import 'package:reservation_system/models/class/restaurant.dart';
 import 'package:reservation_system/presentation/home/home_component/restaurant_card.dart';
@@ -15,36 +19,26 @@ class RestaurantListScreen extends StatefulWidget {
 class _RestaurantListScreenState extends State<RestaurantListScreen> {
   List<String> categories = ["All", "DESC STARS", "ASC STARS"];
   List<Restaurant> filterRestaurant = [];
-  List<Restaurant> restaurants = [];
   String selectedCategory = "All";
 
   @override
   void initState() {
     super.initState();
-    _loadRestaurants();
+    BlocProvider.of<RestaurantListBloc>(context).add(FetchRestaurantList());
   }
 
-  void _loadRestaurants() async {
-    List<Restaurant> restaurant =
-        await RestaurantService.getRestaurantFromServer();
-    setState(() {
-      restaurants = restaurant;
-      filterRestaurant = List.from(restaurants);
-    });
-  }
-
-  void filterCategories(String category) {
+  void filterCategories(String category, List<Restaurant> restaurants) {
     setState(() {
       selectedCategory = category;
       switch (category) {
         case "DESC STARS":
-          return filterRestaurant.sort(
-            (a, b) => b.address!.compareTo(a.address!),
-          );
+          filterRestaurant = List.from(restaurants)
+            ..sort((a, b) => b.address!.compareTo(a.address!));
+          break;
         case "ASC STARS":
-          return filterRestaurant.sort(
-            (a, b) => a.address!.compareTo(b.address!),
-          );
+          filterRestaurant = List.from(restaurants)
+            ..sort((a, b) => a.address!.compareTo(b.address!));
+          break;
         default:
           filterRestaurant = List.from(restaurants);
       }
@@ -70,14 +64,26 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
               itemList: categories,
               value: selectedCategory,
               onChanged: (value) {
-                value != null ? filterCategories(value) : "";
+                value != null ? filterCategories(value, filterRestaurant) : "";
               },
             ),
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: SafeArea(child: _buildBody(context, filterRestaurant)),
+      body: BlocBuilder<RestaurantListBloc, RestaurantListState>(
+        builder: (context, state) {
+          if (state is RestaurantListLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is RestaurantListFetchFailure) {
+            return Center(child: Text("Error: ${state.error}"));
+          } else if (state is RestaurantListFetchSuccess) {
+            filterRestaurant = List.from(state.restaurants);
+            return SingleChildScrollView(
+              child: SafeArea(child: _buildBody(context, filterRestaurant)),
+            );
+          }
+          return const Center(child: Text("No data available"));
+        },
       ),
     );
   }

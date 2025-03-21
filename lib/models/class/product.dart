@@ -25,6 +25,7 @@ class Product extends Restaurant {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       "name": nameProduct,
