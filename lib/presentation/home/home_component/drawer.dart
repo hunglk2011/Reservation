@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reservation_system/bloc/bloC/authentication_bloc/authentication_bloc.dart';
-import 'package:reservation_system/bloc/state/authentication_state/authentication_state.dart';
+import 'package:reservation_system/bloc/authentication/authentication_bloc.dart';
+import 'package:reservation_system/bloc/authentication/authentication_state.dart';
 import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/presentation/home/home_component/menu_card.dart';
 import 'package:reservation_system/presentation/home/home_component/reserve_button.dart';
 import 'package:reservation_system/routes/route_named.dart';
-import '../../../bloc/event/authentication_event/authentication_event.dart';
+import '../../../bloc/authentication/authentication_event.dart';
 
 class DrawerMenu extends StatefulWidget {
   const DrawerMenu({super.key});

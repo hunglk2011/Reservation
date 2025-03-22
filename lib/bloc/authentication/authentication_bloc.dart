@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reservation_system/bloc/event/authentication_event/authentication_event.dart';
-import 'package:reservation_system/bloc/state/authentication_state/authentication_state.dart';
+import 'package:reservation_system/bloc/authentication/authentication_event.dart';
+import 'package:reservation_system/bloc/authentication/authentication_state.dart';
 import 'package:reservation_system/models/class/user.dart';
 import 'package:reservation_system/models/share_preference/preferences.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reservation_system/bloc/bloC/authentication_bloc/authentication_bloc.dart';
-import 'package:reservation_system/bloc/state/authentication_state/authentication_state.dart';
+import 'package:reservation_system/bloc/authentication/authentication_bloc.dart';
+import 'package:reservation_system/bloc/authentication/authentication_state.dart';
 import 'package:reservation_system/component/button/ui_button.dart';
 import 'package:reservation_system/component/textinput/ui_text_input.dart';
 import 'package:reservation_system/models/class/reservation.dart';
@@ -49,114 +49,108 @@ class _ReservationTabState extends State<ReservationTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          TextCard(
-            text: "Must have vaccinated",
-            itemIcon: Icon(Icons.local_hospital_sharp),
-          ),
-          TextCard(
-            text: "Deposit for reservation",
-            itemIcon: Icon(Icons.money),
-          ),
+    return Column(
+      children: [
+        TextCard(
+          text: "Must have vaccinated",
+          itemIcon: Icon(Icons.local_hospital_sharp),
+        ),
+        TextCard(text: "Deposit for reservation", itemIcon: Icon(Icons.money)),
 
-          DateSection(
-            title: "Pick your date",
-            body: Container(),
-            onDateChanged: (date) {
-              setState(() {
-                selectedDate = date;
-              });
-            },
-          ),
+        DateSection(
+          title: "Pick your date",
+          body: Container(),
+          onDateChanged: (date) {
+            setState(() {
+              selectedDate = date;
+            });
+          },
+        ),
 
-          TimeSection(
-            title: "Pick your time",
-            onTimeChanged: (time) {
-              setState(() {
-                selectedTime = time;
-              });
-            },
-          ),
+        TimeSection(
+          title: "Pick your time",
+          onTimeChanged: (time) {
+            setState(() {
+              selectedTime = time;
+            });
+          },
+        ),
 
-          PeopleSection(
-            title: "How many people?",
-            onPeopleChanged: (count) {
-              setState(() {
-                peopleCount = count;
-              });
-            },
-          ),
+        PeopleSection(
+          title: "How many people?",
+          onPeopleChanged: (count) {
+            setState(() {
+              peopleCount = count;
+            });
+          },
+        ),
 
-          Row(
-            children: [
-              Checkbox(value: false, onChanged: (bool? value) {}),
-              Text(
-                "Vaccine green passes",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
+        Row(
+          children: [
+            Checkbox(value: false, onChanged: (bool? value) {}),
+            Text(
+              "Vaccine green passes",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildSectionTitle("Notes"),
-                  _buildTextField(noteController),
-                  _buildSectionTitle("Information"),
-                  UITextInput(
-                    hintText: "Full name",
-                    type: "text",
-                    controller: fullNameText,
-                  ),
-                  UITextInput(
-                    hintText: "Phone Number",
-                    type: "number",
-                    controller: phoneNumberText,
-                  ),
-                  UITextInput(
-                    hintText: "Email",
-                    type: "email",
-                    controller: emailText,
-                  ),
-                ],
-              ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildSectionTitle("Notes"),
+                _buildTextField(noteController),
+                _buildSectionTitle("Information"),
+                UITextInput(
+                  hintText: "Full name",
+                  type: "text",
+                  controller: fullNameText,
+                ),
+                UITextInput(
+                  hintText: "Phone Number",
+                  type: "number",
+                  controller: phoneNumberText,
+                ),
+                UITextInput(
+                  hintText: "Email",
+                  type: "email",
+                  controller: emailText,
+                ),
+              ],
             ),
           ),
-          CustomButton(
-            text: "REVERSE",
-            onPressed: () {
-              final reservationData = Reservation(
-                createdDate: DateTime.now(),
-                reservationDate: selectedDate,
-                restaurantInfo: widget.restaurantInfo,
-                peopleCount: peopleCount,
-                timeRange:
-                    selectedTime != null
-                        ? "${selectedTime!.hour}:${selectedTime!.minute}"
-                        : "",
-                userInfo: User(
-                  name: fullNameText.text,
-                  phoneNumber: phoneNumberText.text,
-                  email: emailText.text,
-                ),
-                notes: noteController.text,
-              );
-              Navigator.pushNamed(
-                context,
-                Routenamed.confirmReservation,
-                arguments: {"reservation": reservationData.toJson()},
-              );
-            },
-          ),
-        ],
-      ),
+        ),
+        CustomButton(
+          text: "REVERSE",
+          onPressed: () {
+            final reservationData = Reservation(
+              createdDate: DateTime.now(),
+              reservationDate: selectedDate,
+              restaurantInfo: widget.restaurantInfo,
+              peopleCount: peopleCount,
+              timeRange:
+                  selectedTime != null
+                      ? "${selectedTime!.hour}:${selectedTime!.minute}"
+                      : "",
+              userInfo: User(
+                name: fullNameText.text,
+                phoneNumber: phoneNumberText.text,
+                email: emailText.text,
+              ),
+              notes: noteController.text,
+            );
+            Navigator.pushNamed(
+              context,
+              Routenamed.confirmReservation,
+              arguments: {"reservation": reservationData.toJson()},
+            );
+          },
+        ),
+      ],
     );
   }
 }

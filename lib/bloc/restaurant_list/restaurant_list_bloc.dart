@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reservation_system/bloc/event/restaurant_list_event/restaurant_list_event.dart';
-import 'package:reservation_system/bloc/state/restaurant_list_state/restaurant_list_state.dart';
+import 'package:reservation_system/bloc/restaurant_list/restaurant_list_event.dart';
+import 'package:reservation_system/bloc/restaurant_list/restaurant_list_state.dart';
 import 'package:reservation_system/models/class/restaurant.dart';
 import 'package:reservation_system/services/restaurant_service.dart';
 

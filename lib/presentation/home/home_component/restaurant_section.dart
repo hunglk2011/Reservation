@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reservation_system/bloc/bloC/restaurant_list_bloc/restaurant_list_bloc.dart';
-import 'package:reservation_system/bloc/event/restaurant_list_event/restaurant_list_event.dart';
-import 'package:reservation_system/bloc/state/restaurant_list_state/restaurant_list_state.dart';
+import 'package:reservation_system/bloc/restaurant_list/restaurant_list_bloc.dart';
+import 'package:reservation_system/bloc/restaurant_list/restaurant_list_event.dart';
+import 'package:reservation_system/bloc/restaurant_list/restaurant_list_state.dart';
 import 'package:reservation_system/component/section/ui_section.dart';
 import 'package:reservation_system/models/class/restaurant.dart';
 import 'package:reservation_system/presentation/home/home_component/restaurant_card.dart';
