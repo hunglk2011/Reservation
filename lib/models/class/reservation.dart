@@ -9,6 +9,7 @@ enum ReservationStatus {
   confirmed;
 
   static ReservationStatus fromString(String status) {
+    status = status.replaceFirst('ReservationStatus.', '');
     switch (status) {
       case 'finished':
         return ReservationStatus.finished;
@@ -79,10 +80,30 @@ class Reservation {
       "reservationDate": reservationDate?.toIso8601String(),
       "peopleCount": peopleCount,
       "timeRange": timeRange,
-      "status": status?.name,
+      "status": status?.toString().split('.').last,
       "restaurantInfo": restaurantInfo?.toJson(),
       "userInfo": userInfo?.toJson(),
       "notes": notes,
     };
+  }
+
+  Reservation copyWith({
+    String? id,
+    DateTime? reservationDate,
+    ReservationStatus? status,
+    Restaurant? restaurantInfo,
+    int? peopleCount,
+    String? timeRange,
+    User? userInfo,
+  }) {
+    return Reservation(
+      id: id ?? this.id,
+      reservationDate: reservationDate ?? this.reservationDate,
+      status: status ?? this.status,
+      restaurantInfo: restaurantInfo ?? this.restaurantInfo,
+      peopleCount: peopleCount ?? this.peopleCount,
+      timeRange: timeRange ?? this.timeRange,
+      userInfo: userInfo ?? this.userInfo,
+    );
   }
 }

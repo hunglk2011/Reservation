@@ -7,7 +7,6 @@ import 'package:reservation_system/component/button/ui_dropdown_button.dart';
 import 'package:reservation_system/models/class/restaurant.dart';
 import 'package:reservation_system/presentation/home/home_component/restaurant_card.dart';
 import 'package:reservation_system/routes/route_named.dart';
-import 'package:reservation_system/services/restaurant_service.dart';
 
 class RestaurantListScreen extends StatefulWidget {
   const RestaurantListScreen({super.key});

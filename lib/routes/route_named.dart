@@ -10,8 +10,11 @@ import 'package:reservation_system/presentation/notification/notification_screen
 import 'package:reservation_system/presentation/onboard/onboard_screen.dart';
 import 'package:reservation_system/presentation/profile/edit_profile.dart';
 import 'package:reservation_system/presentation/reservation/reservation_screen.dart';
+import 'package:reservation_system/presentation/reservation_detail/reservation_detail_screen.dart';
+import 'package:reservation_system/presentation/reservation_history/reservation_history.dart';
 import 'package:reservation_system/presentation/reset_password/reset_pass_screen.dart';
 import 'package:reservation_system/presentation/restaurant/restaurant_list.dart';
+import 'package:reservation_system/presentation/review_restaurant/review_restaurant_screen.dart';
 import 'package:reservation_system/presentation/see_all/best_seller/best_seller_screen.dart';
 import 'package:reservation_system/presentation/signup/signup_screen.dart';
 import 'package:reservation_system/presentation/splash/splash.dart';
@@ -34,6 +37,9 @@ class Routenamed {
   static const String payment = "/payment";
   static const String profilescreen = "/profile";
   static const String changepass = "/changePass";
+  static const String reservationHistory = "/reservationHistory";
+  static const String reservationDetail = "/reservationDetail";
+  static const String ReviewRestaurant = "/reviewRestaurant";
 
   static Route<dynamic>? generateRouted(RouteSettings settings) {
     switch (settings.name) {
@@ -108,6 +114,27 @@ class Routenamed {
         return MaterialPageRoute(
           builder:
               (context) => ConfirmReservation(reservation: reservationData),
+        );
+
+      case reservationHistory:
+        return MaterialPageRoute(
+          builder: (context) => const ReservationHistory(),
+        );
+
+      case ReviewRestaurant:
+        final data = settings.arguments as Map<String, dynamic>;
+        final reservationId = data["reservationKey"] as String;
+        return MaterialPageRoute(
+          builder: (context) => ReviewRestaurantScreen(id: reservationId),
+        );
+
+      case reservationDetail:
+        final data = settings.arguments as Map<String, dynamic>;
+        final reservationId = data["reservationId"] as String;
+        return MaterialPageRoute(
+          builder:
+              (context) =>
+                  ReservationDetailScreen(reservationId: reservationId),
         );
 
       case payment:

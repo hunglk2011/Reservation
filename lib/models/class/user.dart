@@ -1,5 +1,6 @@
 class User {
   User({
+    this.id,
     this.name,
     this.phoneNumber,
     this.email,
@@ -7,12 +8,14 @@ class User {
     this.confirmPassword,
   });
 
+  String? id;
   String? name;
   String? phoneNumber;
   String? email;
   String? password;
   String? confirmPassword;
 
+  static const _idKey = "id";
   static const _nameKey = 'name';
   static const _phoneKey = 'phoneNumber';
   static const _emailKey = 'email';
@@ -21,6 +24,7 @@ class User {
 
   Map<String, dynamic> toJson() {
     return {
+      _idKey: id,
       _nameKey: name,
       _phoneKey: phoneNumber,
       _emailKey: email,
@@ -31,6 +35,7 @@ class User {
 
   static User fromJson(Map<String, dynamic> json) {
     return User(
+      id: json[_idKey] as String?,
       name: json[_nameKey] as String?,
       phoneNumber: json[_phoneKey] as String?,
       email: json[_emailKey] as String?,

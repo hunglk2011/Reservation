@@ -6,7 +6,6 @@ import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/presentation/home/home_component/menu_card.dart';
 import 'package:reservation_system/presentation/home/home_component/reserve_button.dart';
 import 'package:reservation_system/routes/route_named.dart';
-import '../../../bloc/authentication/authentication_event.dart';
 
 class DrawerMenu extends StatefulWidget {
   const DrawerMenu({super.key});
@@ -115,7 +114,9 @@ Widget _buildMenuOptions(BuildContext context) {
       MenuCard(
         name: "Reservation",
         iconName: Icon(Icons.settings),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, Routenamed.reservationHistory);
+        },
       ),
       MenuCard(name: "About us", iconName: Icon(Icons.info), onPressed: () {}),
       BlocBuilder<AuthenticationBloc, AuthenticationState>(

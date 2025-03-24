@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reservation_system/component/button/ui_button.dart';
 import 'package:reservation_system/gen/assets.gen.dart';
+import 'package:reservation_system/routes/route_named.dart';
 
 class ReservationPayment extends StatelessWidget {
   const ReservationPayment({super.key});
@@ -64,7 +65,15 @@ class ReservationPayment extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 14),
-                        CustomButton(text: "PAYMENT", onPressed: () {}),
+                        CustomButton(
+                          text: "PAYMENT",
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              Routenamed.homescreen,
+                            );
+                          },
+                        ),
                         SizedBox(height: 20),
                         Text(
                           "Note: If the customer cancels the reservation due to subjective reasons, the restaurant will not be responsible for refunding the deposit.",

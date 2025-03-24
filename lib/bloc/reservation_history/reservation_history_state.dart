@@ -1,4 +1,4 @@
-import 'package:reservation_system/main.dart';
+import 'package:reservation_system/models/class/reservation.dart';
 
 sealed class ReservationHistoryState {}
 

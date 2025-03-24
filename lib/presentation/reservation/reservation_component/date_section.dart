@@ -57,7 +57,7 @@ class _DateSectionState extends State<DateSection> {
         ),
         UIDropdownButton(
           itemList: MonthData.month,
-          value: MonthData.month.first,
+          value: selectedMonth,
           onChanged: (value) {
             selectedMonth = value!;
             _updateSelectedDate();

@@ -30,6 +30,13 @@ class BestSellerSection extends StatelessWidget {
             nameProduct: HomePageData.products[index].nameProduct,
             address: HomePageData.products[index].address ?? "",
             image: HomePageData.products[index].imageProduct,
+            onchanged: () {
+              Navigator.pushNamed(
+                context,
+                Routenamed.reservationscreen,
+                arguments: HomePageData.products[index].id.toString(),
+              );
+            },
           );
         },
         shrinkWrap: true,

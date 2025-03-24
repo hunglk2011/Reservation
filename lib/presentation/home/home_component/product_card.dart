@@ -5,11 +5,13 @@ class ProductCard extends StatelessWidget {
   final String nameProduct;
   final String address;
   final String? image;
+  final VoidCallback? onchanged;
   const ProductCard({
     super.key,
     required this.nameProduct,
     required this.address,
     this.image,
+    this.onchanged,
   });
 
   @override
@@ -70,7 +72,7 @@ class ProductCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                ReserveButton(text: "Reserve", onPressed: () {}),
+                ReserveButton(text: "Reserve", onPressed: onchanged),
               ],
             ),
           ),

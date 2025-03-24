@@ -28,7 +28,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     final state = context.read<AuthenticationBloc>().state;
     if (state is AuththenticateSuccess) {
       currentPassword = state.user.password;
-      currentPassController.text = currentPassword ?? "";
+      // currentPassController.text = currentPassword ?? "";
     }
   }
 
@@ -117,11 +117,19 @@ class _ChangePasswordState extends State<ChangePassword> {
                     return Column(
                       children: [
                         UITextInput(
-                          hintText: "current Password",
+                          hintText: "Current Password",
                           type: 'password',
                           obscureText: true,
                           controller: currentPassController,
-                          validator: Validator.validatePassword,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter your current password";
+                            }
+                            if (value != currentPassword) {
+                              return "Current password is incorrect";
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 10),
                         UITextInput(

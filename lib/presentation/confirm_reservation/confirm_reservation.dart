@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reservation_system/bloc/reservation/reservation_bloc.dart';
+import 'package:reservation_system/bloc/reservation/reservation_event.dart';
+import 'package:reservation_system/bloc/reservation/reservation_state.dart';
 import 'package:reservation_system/component/button/ui_button.dart';
 import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/models/class/reservation.dart';
@@ -13,60 +17,86 @@ class ConfirmReservation extends StatefulWidget {
 }
 
 class _ConfirmReservationState extends State<ConfirmReservation> {
+  void saveReservation() {}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              Assets.images.imgRestaurantBackground.path,
-              fit: BoxFit.cover,
+      body: BlocListener<ReservationBloc, ReservationState>(
+        listener: (context, state) {
+          if (state is ReservationSaveSuccess) {
+            Navigator.pushReplacementNamed(context, Routenamed.payment);
+          }
+        },
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                Assets.images.imgRestaurantBackground.path,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          DraggableScrollableSheet(
-            initialChildSize: 0.66,
-            minChildSize: 0.4,
-            maxChildSize: 0.9,
-            builder: (context, scrollController) {
-              return Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
+            Positioned(
+              top: MediaQuery.of(context).padding.top + 10,
+              left: 16,
+              child: IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+
+            DraggableScrollableSheet(
+              initialChildSize: 0.66,
+              minChildSize: 0.4,
+              maxChildSize: 0.9,
+              builder: (context, scrollController) {
+                return Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
                   ),
-                ),
-                child: SingleChildScrollView(
-                  controller: scrollController,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _buildHeader(context),
-                      SizedBox(height: 16),
-                      _buildReservationInfo(),
-                      SizedBox(height: 16),
-                      _buildUserInfo(),
-                      SizedBox(height: 16),
-                      _buildDeposit(context),
-                      SizedBox(height: 16),
-                      CustomButton(
-                        text: "Reservation",
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                            context,
-                            Routenamed.payment,
-                          );
-                        },
-                      ),
-                    ],
+                  child: SingleChildScrollView(
+                    controller: scrollController,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _buildHeader(context),
+                        SizedBox(height: 16),
+                        _buildReservationInfo(),
+                        SizedBox(height: 16),
+                        _buildUserInfo(),
+                        SizedBox(height: 16),
+                        _buildDeposit(context),
+                        SizedBox(height: 16),
+                        CustomButton(
+                          text: "Reservation",
+                          onPressed: () {
+                            if (widget.reservation != null) {
+                              setState(() {
+                                widget.reservation!.status =
+                                    ReservationStatus.confirmed;
+                              });
+                              BlocProvider.of<ReservationBloc>(context).add(
+                                ReservationSaveToServer(
+                                  reservation: widget.reservation!,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
-        ],
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
