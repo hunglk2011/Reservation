@@ -25,59 +25,63 @@ class _ReviewRestaurantScreenState extends State<ReviewRestaurantScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<ReviewRestaurantBloc>(
-      context,
-    ).add(FetchReservationRestaurant(restaurantId: widget.id.toString()));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xffF6EFE8),
-      appBar: AppBar(
+    return BlocProvider(
+      create:
+          (context) =>
+              ReviewRestaurantBloc()..add(
+                FetchReservationRestaurant(restaurantId: widget.id.toString()),
+              ),
+      child: Scaffold(
         backgroundColor: Color(0xffF6EFE8),
-        centerTitle: true,
-        title: Text(
-          'Review Restaurant',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: Color(0xff483332),
+        appBar: AppBar(
+          backgroundColor: Color(0xffF6EFE8),
+          centerTitle: true,
+          title: Text(
+            'Review Restaurant',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: Color(0xff483332),
+            ),
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                Routenamed.reservationDetail,
+                arguments: {"reservationId": widget.id},
+              );
+            },
           ),
         ),
-        leading: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () {
-            Navigator.pushNamed(
-              context,
-              Routenamed.reservationDetail,
-              arguments: {"reservationId": widget.id},
-            );
-          },
-        ),
-      ),
-      body: BlocBuilder<ReviewRestaurantBloc, ReviewRestaurantState>(
-        builder: (context, state) {
-          if (state is ReviewRestaurantLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is ReviewRestaurantSuccess) {
-            reservationData = state.reservation!;
-            return SafeArea(
-              child: Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                  child: _buildBody(
-                    context,
-                    reservationData,
-                    commentController,
+        body: BlocBuilder<ReviewRestaurantBloc, ReviewRestaurantState>(
+          builder: (context, state) {
+            if (state is ReviewRestaurantLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is ReviewRestaurantSuccess) {
+              reservationData = state.reservation!;
+              return SafeArea(
+                child: Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
+                    child: _buildBody(
+                      context,
+                      reservationData,
+                      commentController,
+                    ),
                   ),
                 ),
-              ),
-            );
-          } else {
-            return Center(child: Text("Error loading data"));
-          }
-        },
+              );
+            } else {
+              return Center(child: Text("Error loading data"));
+            }
+          },
+        ),
       ),
     );
   }

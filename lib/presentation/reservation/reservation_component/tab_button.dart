@@ -14,32 +14,31 @@ class TabButton extends StatefulWidget {
 }
 
 class _TabButtonState extends State<TabButton> {
-  int selectedtab = 1;
+  int selectedTab = 1;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 376.77,
+      width: double.infinity,
       height: 52,
       decoration: BoxDecoration(color: Colors.white),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children:
-              widget.tabItem.entries.map((entry) {
-                int index = entry.key;
-                String title = entry.value;
-                bool isSelected = selectedtab == index;
+      child: Row(
+        children:
+            widget.tabItem.entries.map((entry) {
+              int index = entry.key;
+              String title = entry.value;
+              bool isSelected = selectedTab == index;
 
-                return GestureDetector(
+              return Expanded(
+                child: GestureDetector(
                   onTap: () {
                     setState(() {
-                      selectedtab = index;
+                      selectedTab = index;
                     });
                     widget.onTabSelected(index);
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    padding: EdgeInsets.symmetric(vertical: 8),
                     decoration: BoxDecoration(
                       border:
                           isSelected
@@ -51,6 +50,7 @@ class _TabButtonState extends State<TabButton> {
                               )
                               : null,
                     ),
+                    alignment: Alignment.center,
                     child: Text(
                       title,
                       style: TextStyle(
@@ -59,9 +59,9 @@ class _TabButtonState extends State<TabButton> {
                       ),
                     ),
                   ),
-                );
-              }).toList(),
-        ),
+                ),
+              );
+            }).toList(),
       ),
     );
   }

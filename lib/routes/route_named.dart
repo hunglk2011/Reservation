@@ -11,7 +11,7 @@ import 'package:reservation_system/presentation/onboard/onboard_screen.dart';
 import 'package:reservation_system/presentation/profile/edit_profile.dart';
 import 'package:reservation_system/presentation/reservation/reservation_screen.dart';
 import 'package:reservation_system/presentation/reservation_detail/reservation_detail_screen.dart';
-import 'package:reservation_system/presentation/reservation_history/reservation_history.dart';
+import 'package:reservation_system/presentation/reservation_history/reservation_history_screen.dart';
 import 'package:reservation_system/presentation/reset_password/reset_pass_screen.dart';
 import 'package:reservation_system/presentation/restaurant/restaurant_list.dart';
 import 'package:reservation_system/presentation/review_restaurant/review_restaurant_screen.dart';
@@ -39,7 +39,7 @@ class Routenamed {
   static const String changepass = "/changePass";
   static const String reservationHistory = "/reservationHistory";
   static const String reservationDetail = "/reservationDetail";
-  static const String ReviewRestaurant = "/reviewRestaurant";
+  static const String reviewRestaurant = "/reviewRestaurant";
 
   static Route<dynamic>? generateRouted(RouteSettings settings) {
     switch (settings.name) {
@@ -121,7 +121,7 @@ class Routenamed {
           builder: (context) => const ReservationHistory(),
         );
 
-      case ReviewRestaurant:
+      case reviewRestaurant:
         final data = settings.arguments as Map<String, dynamic>;
         final reservationId = data["reservationKey"] as String;
         return MaterialPageRoute(

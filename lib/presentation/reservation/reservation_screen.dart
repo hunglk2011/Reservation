@@ -6,6 +6,7 @@ import 'package:reservation_system/bloc/reservation/reservation_state.dart';
 import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/models/class/restaurant.dart';
 import 'package:reservation_system/presentation/reservation/reservation_component/tab_button.dart';
+import 'package:reservation_system/presentation/reservation/tab_screen/menu_tab.dart';
 import 'package:reservation_system/presentation/reservation/tab_screen/reservation_tab.dart';
 
 class ReservationScreen extends StatefulWidget {
@@ -22,46 +23,49 @@ class _ReservationScreenState extends State<ReservationScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<ReservationBloc>(
-      context,
-    ).add(ReservationFetchRestaurantByID(id: widget.restaurantId!));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xffF6EFE8),
-      body: BlocBuilder<ReservationBloc, ReservationState>(
-        builder: (context, state) {
-          final isLoading = state is ReservationLoading;
-          if (state is ReservationFetchRestaurantSuccess) {
-            restaurantData = state.restaurantData;
-          }
-          return SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  restaurantData == null || isLoading
-                      ? Center(child: CircularProgressIndicator())
-                      : _buildHeader(context, restaurantData!),
-                  TabButton(
-                    tabItem: {1: "Reservation", 2: "Menu", 3: "Reviews"},
-                    onTabSelected: (index) {
-                      setState(() {
-                        selectedTab = index;
-                      });
-                    },
-                  ),
+    return BlocProvider(
+      create:
+          (context) =>
+              ReservationBloc()
+                ..add(ReservationFetchRestaurantByID(id: widget.restaurantId!)),
+      child: Scaffold(
+        backgroundColor: Color(0xffF6EFE8),
+        body: BlocBuilder<ReservationBloc, ReservationState>(
+          builder: (context, state) {
+            final isLoading = state is ReservationLoading;
+            if (state is ReservationFetchRestaurantSuccess) {
+              restaurantData = state.restaurantData;
+            }
+            return SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    restaurantData == null || isLoading
+                        ? Center(child: CircularProgressIndicator())
+                        : _buildHeader(context, restaurantData!),
+                    TabButton(
+                      tabItem: {1: "Reservation", 2: "Menu", 3: "Reviews"},
+                      onTabSelected: (index) {
+                        setState(() {
+                          selectedTab = index;
+                        });
+                      },
+                    ),
 
-                  if (selectedTab == 1)
-                    ReservationTab(restaurantInfo: restaurantData),
-                  if (selectedTab == 2) Text("Menu Screen"),
-                  if (selectedTab == 3) Text("Reviews Screen"),
-                ],
+                    if (selectedTab == 1)
+                      ReservationTab(restaurantInfo: restaurantData),
+                    if (selectedTab == 2) MenuTab(),
+                    if (selectedTab == 3) Text("Reviews Screen"),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

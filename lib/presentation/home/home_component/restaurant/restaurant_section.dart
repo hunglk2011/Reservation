@@ -5,7 +5,7 @@ import 'package:reservation_system/bloc/restaurant_list/restaurant_list_event.da
 import 'package:reservation_system/bloc/restaurant_list/restaurant_list_state.dart';
 import 'package:reservation_system/component/section/ui_section.dart';
 import 'package:reservation_system/models/class/restaurant.dart';
-import 'package:reservation_system/presentation/home/home_component/restaurant_card.dart';
+import 'package:reservation_system/presentation/home/home_component/restaurant/restaurant_card.dart';
 import 'package:reservation_system/routes/route_named.dart';
 
 class RestaurantSection extends StatefulWidget {
@@ -19,31 +19,33 @@ class _RestaurantSectionState extends State<RestaurantSection> {
   @override
   void initState() {
     super.initState();
-    context.read<RestaurantListBloc>().add(FetchRestaurantList());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RestaurantListBloc, RestaurantListState>(
-      builder: (context, state) {
-        if (state is RestaurantListLoading ||
-            state is RestaurantListFetchFailure) {
-          return UISection(
-            title: "Our Restaurant",
-            body: Center(child: CircularProgressIndicator()),
-          );
-        } else if (state is RestaurantListFetchSuccess) {
-          final List<Restaurant> result = List.from(state.restaurants);
-          return UISection(
-            title: "Our Restaurant",
-            body: _buildBody(context, result),
-            onPress: () {
-              Navigator.pushNamed(context, Routenamed.seeAllRestaurant);
-            },
-          );
-        }
-        return SizedBox.shrink();
-      },
+    return BlocProvider(
+      create: (context) => RestaurantListBloc()..add(FetchRestaurantList()),
+      child: BlocBuilder<RestaurantListBloc, RestaurantListState>(
+        builder: (context, state) {
+          if (state is RestaurantListLoading ||
+              state is RestaurantListFetchFailure) {
+            return UISection(
+              title: "Our Restaurant",
+              body: Center(child: CircularProgressIndicator()),
+            );
+          } else if (state is RestaurantListFetchSuccess) {
+            final List<Restaurant> result = List.from(state.restaurants);
+            return UISection(
+              title: "Our Restaurant",
+              body: _buildBody(context, result),
+              onPress: () {
+                Navigator.pushNamed(context, Routenamed.seeAllRestaurant);
+              },
+            );
+          }
+          return SizedBox.shrink();
+        },
+      ),
     );
   }
 }

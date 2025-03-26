@@ -19,43 +19,44 @@ class _ReservationHistoryState extends State<ReservationHistory> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<ReservationHistoryBloc>(
-      context,
-    ).add(FetchReservationHistory());
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, Routenamed.homescreen);
-          },
-          icon: Icon(Icons.arrow_back),
+    return BlocProvider(
+      create:
+          (context) => ReservationHistoryBloc()..add(FetchReservationHistory()),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, Routenamed.homescreen);
+            },
+            icon: Icon(Icons.arrow_back),
+          ),
         ),
-      ),
-      body: BlocBuilder<ReservationHistoryBloc, ReservationHistoryState>(
-        builder: (context, state) {
-          if (state is ReservationHistoryLoading) {
-            return Center(child: CircularProgressIndicator());
-          } else if (state is ReservationHistorySuccess) {
-            reservations = List.from(state.reservationList);
-          }
+        body: BlocBuilder<ReservationHistoryBloc, ReservationHistoryState>(
+          builder: (context, state) {
+            if (state is ReservationHistoryLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is ReservationHistorySuccess) {
+              reservations = List.from(state.reservationList);
+            }
 
-          return SafeArea(
-            child: Column(
-              children: [
-                Text(
-                  "Your Reservation",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 10),
-                Expanded(child: _buildBody(context, reservations)),
-              ],
-            ),
-          );
-        },
+            return SafeArea(
+              child: Column(
+                children: [
+                  Text(
+                    "Your Reservation",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 10),
+                  Expanded(child: _buildBody(context, reservations)),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -70,7 +71,7 @@ Widget _buildBody(BuildContext context, List<Reservation> reservations) {
         onPressed: () {
           Navigator.pushNamed(
             context,
-            Routenamed.ReviewRestaurant,
+            Routenamed.reviewRestaurant,
             arguments: {"reservationKey": reservations[index].id.toString()},
           );
         },

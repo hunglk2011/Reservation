@@ -18,95 +18,99 @@ class ReservationDetailScreen extends StatefulWidget {
 }
 
 class _ReservationDetailScreenState extends State<ReservationDetailScreen> {
-  Reservation? reservationdata; // Biến này có thể null
+  Reservation? reservationdata;
 
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<ReservationDetailBloc>(context).add(
-      FetchReservationDetail(reservationId: widget.reservationId.toString()),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xffF6EFE8),
-      appBar: AppBar(
+    return BlocProvider(
+      create:
+          (context) =>
+              ReservationDetailBloc()..add(
+                FetchReservationDetail(
+                  reservationId: widget.reservationId.toString(),
+                ),
+              ),
+      child: Scaffold(
         backgroundColor: Color(0xffF6EFE8),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushReplacementNamed(
-              context,
-              Routenamed.reservationHistory,
+        appBar: AppBar(
+          backgroundColor: Color(0xffF6EFE8),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pushReplacementNamed(
+                context,
+                Routenamed.reservationHistory,
+              );
+            },
+          ),
+        ),
+        body: BlocBuilder<ReservationDetailBloc, ReservationDetailState>(
+          builder: (context, state) {
+            if (state is ReservationDetailSuccess) {
+              reservationdata = state.reservationData;
+            } else {
+              reservationdata = null;
+            }
+
+            if (reservationdata == null) {
+              return Center(child: CircularProgressIndicator());
+            }
+
+            return SafeArea(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "#78912",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff483332),
+                        ),
+                      ),
+                      Center(
+                        child: SizedBox(
+                          width: 340,
+                          height: 300,
+                          child: Timeline(
+                            reservationDate: reservationdata!.reservationDate,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      _buildReservationInfo(context, reservationdata!),
+                      SizedBox(height: 10),
+                      _buildUserInfo(context, reservationdata!),
+                      SizedBox(height: 10),
+                      _buildWindowSeat(context),
+                      SizedBox(height: 10),
+                      Align(
+                        alignment: Alignment.center,
+                        child: CustomButton(
+                          text: "Re - Reservation",
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              Routenamed.confirmReservation,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             );
           },
         ),
-      ),
-      body: BlocBuilder<ReservationDetailBloc, ReservationDetailState>(
-        builder: (context, state) {
-          if (state is ReservationDetailSuccess) {
-            reservationdata = state.reservationData;
-          } else {
-            reservationdata = null; // Khi chưa có dữ liệu
-          }
-
-          if (reservationdata == null) {
-            return Center(
-              child: CircularProgressIndicator(),
-            ); // Hiển thị loading khi chưa có dữ liệu
-          }
-
-          return SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "#78912",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xff483332),
-                      ),
-                    ),
-                    Center(
-                      child: SizedBox(
-                        width: 340,
-                        height: 300,
-                        child: Timeline(
-                          reservationDate: reservationdata!.reservationDate,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    _buildReservationInfo(context, reservationdata!),
-                    SizedBox(height: 10),
-                    _buildUserInfo(context, reservationdata!),
-                    SizedBox(height: 10),
-                    _buildWindowSeat(context),
-                    SizedBox(height: 10),
-                    Align(
-                      alignment: Alignment.center,
-                      child: CustomButton(
-                        text: "Re - Reservation",
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                            context,
-                            Routenamed.confirmReservation,
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
       ),
     );
   }

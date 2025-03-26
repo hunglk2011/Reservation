@@ -37,6 +37,7 @@ class Reservation {
   ReservationStatus? status;
   User? userInfo;
   String? notes;
+  int? amount;
   Reservation({
     this.id,
     this.createdDate,
@@ -47,6 +48,7 @@ class Reservation {
     this.restaurantInfo,
     this.userInfo,
     this.notes,
+    this.amount,
   });
 
   static Reservation fromJson(Map<String, dynamic> json) {
@@ -58,7 +60,7 @@ class Reservation {
               : null,
       reservationDate:
           json['reservationDate'] != null
-              ? DateTime.parse(json['reservationDate'])
+              ? DateTime.tryParse(json['reservationDate'])
               : null,
       peopleCount: json['peopleCount'] as int?,
       timeRange: json['timeRange'] as String?,
@@ -70,6 +72,7 @@ class Reservation {
       userInfo:
           json['userInfo'] != null ? User.fromJson(json['userInfo']) : null,
       notes: json['notes'] as String?,
+      amount: json['amount'] as int?,
     );
   }
 
@@ -80,10 +83,11 @@ class Reservation {
       "reservationDate": reservationDate?.toIso8601String(),
       "peopleCount": peopleCount,
       "timeRange": timeRange,
-      "status": status?.toString().split('.').last,
+      "status": status?.name,
       "restaurantInfo": restaurantInfo?.toJson(),
       "userInfo": userInfo?.toJson(),
       "notes": notes,
+      "amount": amount,
     };
   }
 

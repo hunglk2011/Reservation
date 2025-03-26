@@ -2,12 +2,14 @@ import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/models/class/restaurant.dart';
 
 class Product extends Restaurant {
+  String? idProduct;
   String nameProduct;
   String descriptionProduct;
   double? price;
   String? imageProduct;
   int? reviewCount;
   Product({
+    this.idProduct,
     required this.nameProduct,
     required this.descriptionProduct,
     this.price,
@@ -18,19 +20,26 @@ class Product extends Restaurant {
 
   static Product fromJson(Map<String, dynamic> json) {
     return Product(
-      nameProduct: json["name"] ?? "Unknown",
-      descriptionProduct: json["desciption"] ?? "No description",
-      imageProduct: json["image"] ?? Assets.images.imgLogoIcon.path,
-      reviewCount: int.parse(json["reviewCount"]),
+      idProduct: json["idProduct"],
+      nameProduct: json["nameProduct"] ?? "Unknown",
+      descriptionProduct: json["descriptionProduct"] ?? "No description",
+      price: json["price"] != null ? (json["price"] as double?) : null,
+      imageProduct: json["imageProduct"] ?? Assets.images.imgLogoIcon.path,
+      reviewCount:
+          json["reviewCount"] != null
+              ? int.tryParse(json["reviewCount"].toString()) ?? 0
+              : 0,
     );
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "name": nameProduct,
-      "desciption": descriptionProduct,
-      "image": imageProduct,
+      "idProduct": idProduct,
+      "nameProduct": nameProduct,
+      "descriptionProduct": descriptionProduct,
+      "imageProduct": imageProduct,
+      "price": price,
       "reviewCount": reviewCount,
     };
   }

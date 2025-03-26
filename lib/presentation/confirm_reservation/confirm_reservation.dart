@@ -6,7 +6,10 @@ import 'package:reservation_system/bloc/reservation/reservation_state.dart';
 import 'package:reservation_system/component/button/ui_button.dart';
 import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/models/class/reservation.dart';
+import 'package:reservation_system/models/share_preference/preferences.dart';
 import 'package:reservation_system/routes/route_named.dart';
+
+import '../../models/class/notification.dart';
 
 class ConfirmReservation extends StatefulWidget {
   final Reservation? reservation;
@@ -17,7 +20,8 @@ class ConfirmReservation extends StatefulWidget {
 }
 
 class _ConfirmReservationState extends State<ConfirmReservation> {
-  void saveReservation() {}
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +29,13 @@ class _ConfirmReservationState extends State<ConfirmReservation> {
         listener: (context, state) {
           if (state is ReservationSaveSuccess) {
             Navigator.pushReplacementNamed(context, Routenamed.payment);
+          } else if (state is ReservationError) {
+            setState(() {
+              isLoading = false;
+            });
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text("Reservation Failed!")));
           }
         },
         child: Stack(
@@ -74,20 +85,41 @@ class _ConfirmReservationState extends State<ConfirmReservation> {
                         _buildDeposit(context),
                         SizedBox(height: 16),
                         CustomButton(
-                          text: "Reservation",
-                          onPressed: () {
-                            if (widget.reservation != null) {
-                              setState(() {
-                                widget.reservation!.status =
-                                    ReservationStatus.confirmed;
-                              });
-                              BlocProvider.of<ReservationBloc>(context).add(
-                                ReservationSaveToServer(
-                                  reservation: widget.reservation!,
-                                ),
-                              );
-                            }
-                          },
+                          text: isLoading ? "Processing..." : "Reservation",
+                          onPressed:
+                              isLoading
+                                  ? null
+                                  : () {
+                                    if (widget.reservation != null) {
+                                      setState(() {
+                                        isLoading = true;
+                                        widget.reservation!.status =
+                                            ReservationStatus.finished;
+                                      });
+
+                                      List<NotificationModel> notifications = [
+                                        NotificationModel(
+                                          isRead: false,
+                                          createdAt: DateTime.now(),
+                                          reservation: widget.reservation!,
+                                        ),
+                                      ];
+
+                                      for (var notification in notifications) {
+                                        AppPreference.saveNotificationData(
+                                          notification,
+                                        );
+                                      }
+
+                                      BlocProvider.of<ReservationBloc>(
+                                        context,
+                                      ).add(
+                                        ReservationSaveToServer(
+                                          reservation: widget.reservation!,
+                                        ),
+                                      );
+                                    }
+                                  },
                         ),
                       ],
                     ),

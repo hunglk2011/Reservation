@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reservation_system/bloc/authentication/authentication_bloc.dart';
+import 'package:reservation_system/bloc/authentication/authentication_state.dart';
 import 'package:reservation_system/component/textinput/ui_text_input.dart';
-import 'package:reservation_system/presentation/home/home_component/best_seller_section.dart';
+import 'package:reservation_system/presentation/home/home_component/best_seller/best_seller_section.dart';
+import 'package:reservation_system/presentation/home/home_component/best_seller/best_seller_section_not_login.dart';
 import 'package:reservation_system/presentation/home/home_component/discount_section.dart';
 import 'package:reservation_system/presentation/home/home_component/drawer.dart';
-import 'package:reservation_system/presentation/home/home_component/restaurant_section.dart';
+import 'package:reservation_system/presentation/home/home_component/restaurant/restaurant_section.dart';
+import 'package:reservation_system/presentation/home/home_component/restaurant/restaurant_section_no_login.dart';
 import 'package:reservation_system/presentation/home/home_component/slide_show.dart';
 import 'package:reservation_system/routes/route_named.dart';
 
@@ -34,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.place, color: Colors.deepOrangeAccent),
             SizedBox(width: 4),
@@ -46,37 +52,71 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              UITextInput(
-                hintText: "Search",
-                type: "text",
-                controller: textController,
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SlideShow(),
-
-                      SizedBox(height: 24),
-
-                      BestSellerSection(),
-
-                      SizedBox(height: 12),
-
-                      RestaurantSection(),
-                      DiscountSection(),
-                    ],
+      body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) {
+          return SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  UITextInput(
+                    hintText: "Search",
+                    type: "text",
+                    controller: textController,
                   ),
-                ),
+                  state is AuththenticateSuccess
+                      ? _BodyLoggedin()
+                      : _BodyNoLoggedin(),
+                ],
               ),
-            ],
-          ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _BodyLoggedin extends StatelessWidget {
+  const _BodyLoggedin();
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SlideShow(),
+            SizedBox(height: 24),
+            BestSellerSection(),
+            SizedBox(height: 12),
+            RestaurantSection(),
+            DiscountSection(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BodyNoLoggedin extends StatelessWidget {
+  const _BodyNoLoggedin();
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SlideShow(),
+            SizedBox(height: 24),
+            BestSellerSectionNotLogin(),
+            SizedBox(height: 12),
+            RestaurantSectionNoLogin(),
+            DiscountSection(),
+          ],
         ),
       ),
     );

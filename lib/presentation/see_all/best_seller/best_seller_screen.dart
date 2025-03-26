@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reservation_system/bloc/restaurant_list/restaurant_list_bloc.dart';
+import 'package:reservation_system/bloc/restaurant_list/restaurant_list_event.dart';
+import 'package:reservation_system/bloc/restaurant_list/restaurant_list_state.dart';
 import 'package:reservation_system/component/button/ui_dropdown_button.dart';
 import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/models/class/product.dart';
-import 'package:reservation_system/services/product_service.dart';
 import 'package:reservation_system/models/share_preference/preferences.dart';
 import 'package:reservation_system/presentation/see_all/best_seller/best_seller_card.dart';
 
@@ -14,77 +17,96 @@ class BestSellerScreen extends StatefulWidget {
 }
 
 class _BestSellerScreenState extends State<BestSellerScreen> {
-  List<Product> products = [];
   List<String> categories = ["All", "DESC STARS", "ASC STARS"];
   List<Product> filterProducts = [];
   String selectedCategory = "All";
-  @override
-  void initState() {
-    super.initState();
-    _loadProducts();
-  }
 
-  void _loadProducts() async {
-    List<Product> product = await ProductService.getProductFromServer();
-    setState(() {
-      products = product;
-      filterProducts = List.from(products);
-    });
-  }
+  void filterCategories(String category, List<Product> products) {
+    if (products.isEmpty) return;
 
-  void filterCategories(String category) {
+    List<Product> sortedProducts = List.from(products);
+    switch (category) {
+      case "DESC STARS":
+        sortedProducts.sort(
+          (a, b) => (b.reviewCount ?? 0).compareTo(a.reviewCount ?? 0),
+        );
+        break;
+      case "ASC STARS":
+        sortedProducts.sort(
+          (a, b) => (a.reviewCount ?? 0).compareTo(b.reviewCount ?? 0),
+        );
+        break;
+    }
+
     setState(() {
       selectedCategory = category;
-      switch (category) {
-        case "DESC STARS":
-          return filterProducts.sort(
-            (a, b) => b.reviewCount!.compareTo(a.reviewCount!),
-          );
-        case "ASC STARS":
-          return filterProducts.sort(
-            (a, b) => a.reviewCount!.compareTo(b.reviewCount!),
-          );
-        default:
-          filterProducts = List.from(products);
-      }
+      filterProducts = sortedProducts;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Best Seller",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: Color(0xff483332),
+    return BlocProvider(
+      create: (context) => RestaurantListBloc()..add(FetchRestaurantList()),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Best Seller",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xff483332),
+                ),
               ),
-            ),
-            UIDropdownButton(
-              itemList: categories,
-              value: selectedCategory,
-              onChanged: (value) {
-                value != null ? filterCategories(value) : "";
-              },
-            ),
-          ],
+              UIDropdownButton(
+                itemList: categories,
+                value: selectedCategory,
+                onChanged: (value) {
+                  if (value != null) {
+                    filterCategories(value, filterProducts);
+                  }
+                },
+              ),
+            ],
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: SafeArea(child: _buildBody(context, filterProducts)),
+        body: BlocBuilder<RestaurantListBloc, RestaurantListState>(
+          builder: (context, state) {
+            if (state is RestaurantListLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is RestaurantListFetchSuccess) {
+              List<Product> allProducts =
+                  state.restaurants
+                      .map((restaurant) => restaurant.product)
+                      .whereType<Product>()
+                      .toList();
+
+              return SingleChildScrollView(
+                child: SafeArea(
+                  child: _buildBody(
+                    context,
+                    filterProducts.isNotEmpty ? filterProducts : allProducts,
+                  ),
+                ),
+              );
+            }
+            return const Center(child: Text("No data available"));
+          },
+        ),
       ),
     );
   }
 }
 
 Widget _buildBody(BuildContext context, List<Product> products) {
+  if (products.isEmpty) {
+    return const Center(child: Text("No best sellers found."));
+  }
   return ListView.separated(
-    physics: NeverScrollableScrollPhysics(),
+    physics: const NeverScrollableScrollPhysics(),
     shrinkWrap: true,
     itemBuilder: (context, index) {
       return BestSellerCard(
@@ -115,7 +137,7 @@ Widget _buildBody(BuildContext context, List<Product> products) {
         },
       );
     },
-    separatorBuilder: (context, index) => Divider(),
+    separatorBuilder: (context, index) => const Divider(),
     itemCount: products.length,
   );
 }

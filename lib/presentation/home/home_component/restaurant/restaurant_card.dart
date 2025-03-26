@@ -4,11 +4,11 @@ import 'package:reservation_system/presentation/home/home_component/reserve_butt
 class RestaurantCard extends StatefulWidget {
   final String nameRestaurant;
   final String address;
-  String? image;
-  VoidCallback? onchanged;
-  bool? hasDelete;
-  VoidCallback? onDelete;
-  RestaurantCard({
+  final String? image;
+  final VoidCallback? onchanged;
+  final bool? hasDelete;
+  final VoidCallback? onDelete;
+  const RestaurantCard({
     super.key,
     required this.address,
     required this.nameRestaurant,

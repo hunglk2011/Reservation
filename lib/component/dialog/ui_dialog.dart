@@ -79,3 +79,26 @@ class ModalBottomSheet {
     );
   }
 }
+
+class UiDialog {
+  static Future<void> show(
+    BuildContext context, {
+    required String title,
+    required Widget content,
+    required List<Widget> actions,
+  }) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: content,
+          actions: actions,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+        );
+      },
+    );
+  }
+}

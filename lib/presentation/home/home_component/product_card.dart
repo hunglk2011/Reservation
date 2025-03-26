@@ -32,7 +32,7 @@ class ProductCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Image.asset(
+          Image.network(
             image ?? "",
             width: 148,
             height: 100,
