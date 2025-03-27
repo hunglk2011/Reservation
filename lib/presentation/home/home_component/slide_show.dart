@@ -15,29 +15,23 @@ class _SlideShowState extends State<SlideShow> {
     return Container(
       height: 200,
       width: double.infinity,
-      decoration: BoxDecoration(
-        color: Color(0xffFA8072),
-        borderRadius: BorderRadius.circular(20),
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ImageSlideshow(
             indicatorColor: Color(0xffAD3F32),
             height: 166,
-            width: 327,
+            width: double.infinity,
             isLoop: true,
             autoPlayInterval: 2000,
             children: [
               Image.asset(Assets.images.imgSlideshow.path, fit: BoxFit.contain),
               Image.asset(
-                Assets.images.imgDishCartoon.path,
+                Assets.images.imgRestaurant.path,
                 fit: BoxFit.contain,
               ),
-              Image.asset(
-                Assets.images.imgOrderCartoon.path,
-                fit: BoxFit.contain,
-              ),
+              Image.asset(Assets.images.imgBeef.path, fit: BoxFit.contain),
             ],
           ),
         ],

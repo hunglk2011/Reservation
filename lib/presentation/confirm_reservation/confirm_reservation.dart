@@ -89,7 +89,7 @@ class _ConfirmReservationState extends State<ConfirmReservation> {
                           onPressed:
                               isLoading
                                   ? null
-                                  : () {
+                                  : () async {
                                     if (widget.reservation != null) {
                                       setState(() {
                                         isLoading = true;
@@ -97,19 +97,21 @@ class _ConfirmReservationState extends State<ConfirmReservation> {
                                             ReservationStatus.finished;
                                       });
 
+                                      List<NotificationModel> oldNotifications =
+                                          await AppPreference.getNotificationData();
+
                                       List<NotificationModel> notifications = [
                                         NotificationModel(
                                           isRead: false,
                                           createdAt: DateTime.now(),
                                           reservation: widget.reservation!,
                                         ),
+                                        ...oldNotifications,
                                       ];
 
-                                      for (var notification in notifications) {
-                                        AppPreference.saveNotificationData(
-                                          notification,
-                                        );
-                                      }
+                                      await AppPreference.saveNotificationData(
+                                        notifications,
+                                      );
 
                                       BlocProvider.of<ReservationBloc>(
                                         context,

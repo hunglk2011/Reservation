@@ -30,12 +30,15 @@ class BestSellerSection extends StatelessWidget {
                     .whereType<Product>()
                     .toList();
 
-            return UISection(
-              title: 'Best seller',
-              body: BuildBody(products: result),
-              onPress: () {
-                Navigator.pushNamed(context, Routenamed.seeAllBestSeller);
-              },
+            return SizedBox(
+              width: double.infinity,
+              child: UISection(
+                title: 'Best seller',
+                body: BuildBody(products: result),
+                onPress: () {
+                  Navigator.pushNamed(context, Routenamed.seeAllBestSeller);
+                },
+              ),
             );
           }
           return UISection(
@@ -56,26 +59,27 @@ class BuildBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 210,
-      child: ListView.separated(
+      child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: products.length,
         physics: BouncingScrollPhysics(),
+        itemCount: products.length,
         itemBuilder: (context, index) {
-          return ProductCard(
-            nameProduct: products[index].nameProduct,
-            address: products[index].address ?? "",
-            image: products[index].imageProduct,
-            onchanged: () {
-              Navigator.pushNamed(
-                context,
-                Routenamed.reservationscreen,
-                arguments: products[index].product!.idProduct,
-              );
-            },
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: ProductCard(
+              nameProduct: products[index].nameProduct,
+              address: products[index].address ?? "280 An Duong Vuong",
+              image: products[index].imageProduct,
+              onchanged: () {
+                Navigator.pushNamed(
+                  context,
+                  Routenamed.reservationscreen,
+                  arguments: products[index].idProduct,
+                );
+              },
+            ),
           );
         },
-        shrinkWrap: true,
-        separatorBuilder: (context, index) => SizedBox(width: 10),
       ),
     );
   }

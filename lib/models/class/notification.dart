@@ -35,6 +35,20 @@ class NotificationModel {
     };
   }
 
+  NotificationModel copyWith({
+    String? id,
+    Reservation? reservation,
+    bool? isRead,
+    DateTime? createdAt,
+  }) {
+    return NotificationModel(
+      id: id ?? this.id,
+      reservation: reservation ?? this.reservation,
+      isRead: isRead ?? this.isRead,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
   static String _generateRandomId() {
     final random = Random();
     return (100000 + random.nextInt(900000)).toString();

@@ -14,9 +14,12 @@ class UISection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [_buildTitle(context), body],
+    return ConstrainedBox(
+      constraints: BoxConstraints(minHeight: 50, maxHeight: double.infinity),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [_buildTitle(context), body],
+      ),
     );
   }
 

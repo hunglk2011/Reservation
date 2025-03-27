@@ -21,14 +21,7 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
         await Future.delayed(const Duration(seconds: 1));
 
         final reservation = await ReservationService.createNewReservation(
-          id: event.reservation.id,
-          reservationDate: event.reservation.reservationDate,
-          timeRange: event.reservation.timeRange,
-          status: event.reservation.status,
-          peopleCount: event.reservation.peopleCount,
-          restaurantInfo: event.reservation.restaurantInfo,
-          userInfo: event.reservation.userInfo,
-          notes: event.reservation.notes,
+          reservation: event.reservation,
         );
 
         if (reservation != null) {

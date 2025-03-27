@@ -13,16 +13,31 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  late NotificationBloc _notificationBloc;
+  @override
+  void initState() {
+    super.initState();
+    _notificationBloc = NotificationBloc()..add(FetchNotification());
+  }
+
+  @override
+  void dispose() {
+    _notificationBloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => NotificationBloc()..add(FetchNotification()),
+      create: (context) => _notificationBloc,
       child: Scaffold(
         appBar: AppBar(
           title: Text("Notifications"),
           actions: [
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                _notificationBloc.add(MarkAsReadAll());
+              },
               child: Text(
                 "Mark as read",
                 style: TextStyle(color: Colors.redAccent),
@@ -34,7 +49,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
           builder: (context, state) {
             if (state is NotificationLoading) {
               return Center(child: CircularProgressIndicator());
-            } else if (state is FetchNotificationSuccess) {
+            }
+            if (state is FetchNotificationSuccess) {
               return Padding(
                 padding: EdgeInsets.all(16.0),
                 child: ListView.builder(
@@ -42,6 +58,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   itemBuilder: (context, index) {
                     return NotificationCard(
                       notification: state.notificationList[index],
+                      isRead: state.notificationList[index].isRead,
+                      onPressed: () {
+                        _notificationBloc.add(
+                          MarkAsReadItem(
+                            notificationId: state.notificationList[index].id,
+                          ),
+                        );
+                      },
                     );
                   },
                 ),

@@ -30,24 +30,24 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Color(0xffF6EFE8),
       drawer: DrawerMenu(),
       appBar: AppBar(
+        backgroundColor: Color(0xffF6EFE8),
         actions: [
           IconButton(
             onPressed: () {
               Navigator.pushNamed(context, Routenamed.notify);
             },
-            icon: Icon(Icons.notifications_active),
+            icon: Icon(Icons.notifications_on_rounded),
           ),
         ],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.place, color: Colors.deepOrangeAccent),
+            Icon(Icons.place, color: Color(0xffAD3F32), size: 23),
             SizedBox(width: 4),
-            Expanded(
-              child: Text(
-                "Dong Khoi st, District 1",
-                overflow: TextOverflow.ellipsis,
-              ),
+            Text(
+              "Dong Khoi st, District 1",
+              style: TextStyle(fontSize: 13),
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
@@ -55,20 +55,23 @@ class _HomeScreenState extends State<HomeScreen> {
       body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
           return SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  UITextInput(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: UITextInput(
                     hintText: "Search",
                     type: "text",
                     controller: textController,
                   ),
-                  state is AuththenticateSuccess
-                      ? _BodyLoggedin()
-                      : _BodyNoLoggedin(),
-                ],
-              ),
+                ),
+                Expanded(
+                  child:
+                      state is AuththenticateSuccess
+                          ? _BodyLoggedin()
+                          : _BodyNoLoggedin(),
+                ),
+              ],
             ),
           );
         },
@@ -78,46 +81,36 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class _BodyLoggedin extends StatelessWidget {
-  const _BodyLoggedin();
-
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SlideShow(),
-            SizedBox(height: 24),
-            BestSellerSection(),
-            SizedBox(height: 12),
-            RestaurantSection(),
-            DiscountSection(),
-          ],
-        ),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SlideShow(),
+          SizedBox(height: 24),
+          BestSellerSection(),
+          SizedBox(height: 12),
+          RestaurantSection(),
+          DiscountSection(),
+        ],
       ),
     );
   }
 }
 
 class _BodyNoLoggedin extends StatelessWidget {
-  const _BodyNoLoggedin();
-
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SlideShow(),
-            SizedBox(height: 24),
-            BestSellerSectionNotLogin(),
-            SizedBox(height: 12),
-            RestaurantSectionNoLogin(),
-            DiscountSection(),
-          ],
-        ),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SlideShow(),
+          SizedBox(height: 24),
+          BestSellerSectionNotLogin(),
+          SizedBox(height: 12),
+          RestaurantSectionNoLogin(),
+          DiscountSection(),
+        ],
       ),
     );
   }

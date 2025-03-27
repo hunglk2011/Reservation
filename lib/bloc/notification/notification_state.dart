@@ -16,6 +16,12 @@ class FetchNotificationFaillure extends NotificationState {
   FetchNotificationFaillure({required this.message});
 }
 
-class MarkAsReadItemSuccess extends NotificationState {}
+class MarkAsReadItemSuccess extends NotificationState {
+  NotificationModel notification;
+  MarkAsReadItemSuccess({required this.notification});
+}
 
-class MarkasReadSuccess extends NotificationState {}
+class MarkasReadSuccess extends NotificationState {
+  List<NotificationModel> notificationList;
+  MarkasReadSuccess({required this.notificationList});
+}

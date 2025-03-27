@@ -65,7 +65,7 @@ class BuildBody extends StatelessWidget {
         itemBuilder: (context, index) {
           return ProductCard(
             nameProduct: products[index].nameProduct,
-            address: products[index].address ?? "",
+            address: products[index].address ?? "280 An Duong Vuong",
             image: products[index].imageProduct,
             onchanged: () {
               UiDialog.show(

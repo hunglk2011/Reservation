@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:reservation_system/models/class/reservation.dart';
-import 'package:reservation_system/models/class/restaurant.dart';
-import 'package:reservation_system/models/class/user.dart';
 
 class ReservationService {
   static const domain = "67cafc073395520e6af3e3aa.mockapi.io";
@@ -33,31 +31,12 @@ class ReservationService {
   }
 
   static Future<Reservation?> createNewReservation({
-    String? id,
-    DateTime? createdDate,
-    DateTime? reservationDate,
-    Restaurant? restaurantInfo,
-    int? peopleCount,
-    String? timeRange,
-    ReservationStatus? status,
-    User? userInfo,
-    String? notes,
+    required Reservation reservation,
   }) async {
     try {
       var url = Uri.https(domain, '/reservation');
 
-      final reservationRequestData = {
-        if (id != null) "id": id,
-        if (createdDate != null) "createdDate": createdDate.toIso8601String(),
-        if (reservationDate != null)
-          "reservationDate": reservationDate.toIso8601String(),
-        if (restaurantInfo != null) "restaurantInfo": restaurantInfo.toJson(),
-        if (peopleCount != null) "peopleCount": peopleCount,
-        if (timeRange != null) "timeRange": timeRange,
-        if (status != null) "status": status.toString(),
-        if (userInfo != null) "userInfo": userInfo.toJson(),
-        if (notes != null) "notes": notes,
-      };
+      final reservationRequestData = reservation.toJson();
 
       final json = jsonEncode(reservationRequestData);
       var response = await http.post(url, headers: header, body: json);

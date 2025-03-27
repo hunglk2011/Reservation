@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:reservation_system/gen/assets.gen.dart';
-import 'package:reservation_system/models/class/notification.dart';
 import 'package:reservation_system/presentation/notification/helper/notification_extension.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../models/class/notification.dart';
 
 class NotificationCard extends StatelessWidget {
-  final NotificationModel? notification;
+  final NotificationModel notification;
+  final VoidCallback onPressed;
+  final bool isRead;
 
-  const NotificationCard({super.key, required this.notification});
+  const NotificationCard({
+    super.key,
+    required this.notification,
+    required this.isRead,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +28,19 @@ class NotificationCard extends StatelessWidget {
           width: 40,
           height: 40,
         ),
-        title: notification?.getNotificationMessage(),
-        trailing: const Icon(
-          Icons.arrow_forward_ios,
-          size: 16,
-          color: Colors.grey,
-        ),
-        onTap: () {},
+        title: notification.getNotificationMessage(),
+        trailing:
+            isRead
+                ? Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey)
+                : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.circle, color: Colors.red, size: 12),
+                    SizedBox(width: 8),
+                    Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+                  ],
+                ),
+        onTap: onPressed,
       ),
     );
   }
