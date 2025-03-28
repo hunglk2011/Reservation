@@ -53,4 +53,27 @@ class ReservationService {
       return null;
     }
   }
+
+  static Future<Reservation?> updateReservation({
+    required Reservation reservation,
+  }) async {
+    try {
+      var url = Uri.https(domain, '/reservation/${reservation.id}');
+      final reservationRequestData = reservation.toJson();
+      final json = jsonEncode(reservationRequestData);
+
+      var response = await http.put(url, headers: header, body: json);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body) as Map<String, dynamic>;
+        return Reservation.fromJson(data);
+      } else {
+        print('Failed to update reservation: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error updating reservation: $e');
+      return null;
+    }
+  }
 }

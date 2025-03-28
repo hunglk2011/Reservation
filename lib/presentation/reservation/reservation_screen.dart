@@ -8,6 +8,7 @@ import 'package:reservation_system/models/class/restaurant.dart';
 import 'package:reservation_system/presentation/reservation/reservation_component/tab_button.dart';
 import 'package:reservation_system/presentation/reservation/tab_screen/menu_tab.dart';
 import 'package:reservation_system/presentation/reservation/tab_screen/reservation_tab.dart';
+import 'package:reservation_system/presentation/reservation/tab_screen/review_tab.dart';
 
 class ReservationScreen extends StatefulWidget {
   final String? restaurantId;
@@ -59,7 +60,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                     if (selectedTab == 1)
                       ReservationTab(restaurantInfo: restaurantData),
                     if (selectedTab == 2) MenuTab(),
-                    if (selectedTab == 3) Text("Reviews Screen"),
+                    if (selectedTab == 3) ReviewTab(),
                   ],
                 ),
               ),

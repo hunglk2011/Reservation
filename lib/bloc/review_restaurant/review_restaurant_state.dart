@@ -1,5 +1,5 @@
+import 'package:reservation_system/models/class/comment.dart';
 import 'package:reservation_system/models/class/reservation.dart';
-import 'package:reservation_system/models/class/restaurant.dart';
 
 sealed class ReviewRestaurantState {}
 
@@ -12,7 +12,7 @@ class ReviewRestaurantSuccess extends ReviewRestaurantState {
   ReviewRestaurantSuccess({required this.reservation});
 }
 
-class SubmitReviewSuccess extends ReviewRestaurantState {
-  final Restaurant? restaurant;
-  SubmitReviewSuccess({required this.restaurant});
+class FetchReviewRestaurantSuccess extends ReviewRestaurantState {
+  List<Comment> comments;
+  FetchReviewRestaurantSuccess({required this.comments});
 }

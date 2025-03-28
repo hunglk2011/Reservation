@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:reservation_system/models/class/comment.dart';
 import 'package:reservation_system/models/class/notification.dart';
 import 'package:reservation_system/models/class/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,6 +49,26 @@ class AppPreference {
     await prefs.setString('notifications', updatedJson);
   }
 
+  static Future<void> saveCommentData(List<Comment> comments) async {
+    final prefs = await SharedPreferences.getInstance();
+    final String updatedJson = jsonEncode(
+      comments.map((e) => e.toJson()).toList(),
+    );
+    await prefs.setString('comments', updatedJson);
+  }
+
+  static Future<List<Comment>> getCommentData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? jsonData = prefs.getString('comments');
+
+    if (jsonData == null) {
+      return [];
+    }
+
+    final List<dynamic> jsonList = jsonDecode(jsonData);
+    return jsonList.map((json) => Comment.fromJson(json)).toList();
+  }
+
   static Future<List<NotificationModel>> getNotificationData() async {
     final prefs = await SharedPreferences.getInstance();
     final String? jsonData = prefs.getString('notifications');
@@ -58,15 +79,6 @@ class AppPreference {
 
     final List<dynamic> jsonList = jsonDecode(jsonData);
     return jsonList.map((json) => NotificationModel.fromJson(json)).toList();
-  }
-
-  static Future<void> markNotificationAsRead(String notificationId) async {
-    final notifications = await getNotificationData();
-    final index = notifications.indexWhere((e) => e.id == notificationId);
-    if (index != -1) {
-      notifications[index] = notifications[index].copyWith(isRead: true);
-      await updateNotificationData(notifications);
-    }
   }
 
   static Future<void> updateNotificationData(

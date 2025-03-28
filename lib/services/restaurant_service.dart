@@ -53,12 +53,10 @@ class RestaurantService {
   }
 
   static Future<Restaurant?> updateRestaurant({
-    required String id,
-    required String nameRestaurant,
-    required String comment,
+    required Restaurant restaurant,
   }) async {
-    var url = Uri.https(domain, '/restaurant/$id');
-    final restaurantUpdateData = {"name": nameRestaurant, "comment": comment};
+    var url = Uri.https(domain, '/restaurant/${restaurant.id}');
+    final restaurantUpdateData = {"comment": restaurant.comment};
 
     var response = await http.put(
       url,

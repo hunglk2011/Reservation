@@ -5,7 +5,4 @@ class FetchReservationRestaurant extends ReviewRestaurantEvent {
   FetchReservationRestaurant({required this.restaurantId});
 }
 
-class SubmitReview extends ReviewRestaurantEvent {
-  String restaurantId;
-  SubmitReview({required this.restaurantId});
-}
+class FetchReviewRestaurant extends ReviewRestaurantEvent {}

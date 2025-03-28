@@ -44,7 +44,7 @@ class ReservationHistoryCard extends StatelessWidget {
                           Text(
                             reservation?.reservationDate != null
                                 ? getFormattedDay(reservation!.reservationDate!)
-                                : 'Unknown',
+                                : getFormattedDay(DateTime.now()),
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -56,7 +56,9 @@ class ReservationHistoryCard extends StatelessWidget {
                                 ? DateFormat(
                                   'EEEE, MMMM',
                                 ).format(reservation!.reservationDate!)
-                                : 'Unknown Date',
+                                : DateFormat(
+                                  'EEEE, MMMM',
+                                ).format(DateTime.now()),
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
@@ -70,7 +72,7 @@ class ReservationHistoryCard extends StatelessWidget {
                 ),
                 Text(
                   "${reservation?.restaurantInfo?.nameRestaurant?.toString() ?? 'Unknown Restaurant'}\n"
-                  "${reservation?.peopleCount?.toString() ?? 'Unknown'}, "
+                  "${reservation?.peopleCount?.toString() ?? '0'}, "
                   "${reservation?.timeRange?.toString() ?? 'Unknown'}",
                   style: TextStyle(
                     fontSize: 13,

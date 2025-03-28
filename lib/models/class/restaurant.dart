@@ -7,6 +7,7 @@ class Restaurant {
   String? address;
   String? image;
   Product? product;
+  String? comment;
 
   Restaurant({
     this.id,
@@ -15,6 +16,7 @@ class Restaurant {
     this.address,
     this.image,
     this.product,
+    this.comment,
   });
 
   static Restaurant fromJson(Map<String, dynamic> json) {
@@ -27,6 +29,7 @@ class Restaurant {
           json['product'] != null && json['product'] is Map<String, dynamic>
               ? Product.fromJson(json['product'])
               : null,
+      comment: json["comment"],
     );
   }
 
@@ -37,6 +40,7 @@ class Restaurant {
       "address": address,
       "image": image,
       "product": product,
+      "comment": comment,
     };
   }
 }

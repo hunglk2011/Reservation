@@ -4,6 +4,8 @@ import 'package:reservation_system/presentation/change_password/change_password.
 import 'package:reservation_system/presentation/confirm_reservation/confirm_reservation.dart';
 import 'package:reservation_system/presentation/confirm_reservation/reservation_payment.dart';
 import 'package:reservation_system/presentation/forgot_password/forgot_password_screen.dart';
+import 'package:reservation_system/presentation/happy_deal/happy_deal_reservation_screen.dart';
+import 'package:reservation_system/presentation/happy_deal/happy_deal_screen.dart';
 import 'package:reservation_system/presentation/home/home_screen.dart';
 import 'package:reservation_system/presentation/login/login_screen.dart';
 import 'package:reservation_system/presentation/notification/notification_screen.dart';
@@ -40,6 +42,8 @@ class Routenamed {
   static const String reservationHistory = "/reservationHistory";
   static const String reservationDetail = "/reservationDetail";
   static const String reviewRestaurant = "/reviewRestaurant";
+  static const String happydeal = "/happydeals";
+  static const String happydealReservation = "/happydealReservation";
 
   static Route<dynamic>? generateRouted(RouteSettings settings) {
     switch (settings.name) {
@@ -135,6 +139,14 @@ class Routenamed {
           builder:
               (context) =>
                   ReservationDetailScreen(reservationId: reservationId),
+        );
+
+      case happydeal:
+        return MaterialPageRoute(builder: (context) => HappyDealScreen());
+
+      case happydealReservation:
+        return MaterialPageRoute(
+          builder: (context) => HappyDealReservationScreen(),
         );
 
       case payment:

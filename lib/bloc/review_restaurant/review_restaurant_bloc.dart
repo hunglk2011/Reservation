@@ -3,6 +3,8 @@ import 'package:reservation_system/bloc/review_restaurant/review_restaurant_even
 import 'package:reservation_system/bloc/review_restaurant/review_restaurant_state.dart';
 import 'package:reservation_system/services/reservation_service.dart';
 
+import '../../models/share_preference/preferences.dart';
+
 class ReviewRestaurantBloc
     extends Bloc<ReviewRestaurantEvent, ReviewRestaurantState> {
   ReviewRestaurantBloc() : super(ReviewRestaurantInitial()) {
@@ -14,13 +16,10 @@ class ReviewRestaurantBloc
       emit(ReviewRestaurantSuccess(reservation: reservationbyID));
     });
 
-    // on<SubmitReview>((event, emit) async {
-    //   emit(ReviewRestaurantLoading());
-    //   final restaurantbyID = await RestaurantService.updateRestaurant(
-    //     id: event.restaurantId,
-    //     comment: event.
-    //   );
-    //   emit(SubmitReviewSuccess());
-    // });
+    on<FetchReviewRestaurant>((event, emit) async {
+      emit(ReviewRestaurantLoading());
+      final comments = await AppPreference.getCommentData();
+      emit(FetchReviewRestaurantSuccess(comments: comments));
+    });
   }
 }
