@@ -31,7 +31,7 @@ class BestSellerSection extends StatelessWidget {
                     .toList();
 
             return SizedBox(
-              width: double.infinity,
+              height: 300,
               child: UISection(
                 title: 'Best seller',
                 body: BuildBody(products: result),
@@ -58,28 +58,26 @@ class BuildBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 210,
-      child: ListView.builder(
+      height: 240,
+      child: ListView.separated(
         scrollDirection: Axis.horizontal,
         physics: BouncingScrollPhysics(),
         itemCount: products.length,
         itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: ProductCard(
-              nameProduct: products[index].nameProduct,
-              address: products[index].address ?? "280 An Duong Vuong",
-              image: products[index].imageProduct,
-              onchanged: () {
-                Navigator.pushNamed(
-                  context,
-                  Routenamed.reservationscreen,
-                  arguments: products[index].idProduct,
-                );
-              },
-            ),
+          return ProductCard(
+            nameProduct: products[index].nameProduct,
+            address: products[index].address ?? "280 An Duong Vuong",
+            image: products[index].imageProduct,
+            onchanged: () {
+              Navigator.pushNamed(
+                context,
+                Routenamed.reservationscreen,
+                arguments: products[index].idProduct,
+              );
+            },
           );
         },
+        separatorBuilder: (context, index) => SizedBox(width: 10),
       ),
     );
   }

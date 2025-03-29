@@ -24,34 +24,37 @@ class UISection extends StatelessWidget {
   }
 
   Widget _buildTitle(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: Color(0xff483332),
+    return Padding(
+      padding: const EdgeInsets.all(6.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: Color(0xff483332),
+            ),
           ),
-        ),
-        TextButton(
-          onPressed: onPress,
-          child: Row(
-            children: [
-              Text(
-                "See All",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color(0xff999999),
-                  fontWeight: FontWeight.w500,
+          TextButton(
+            onPressed: onPress,
+            child: Row(
+              children: [
+                Text(
+                  "See All",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Color(0xff999999),
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              Icon(Icons.chevron_right_rounded),
-            ],
+                Icon(Icons.chevron_right_rounded),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

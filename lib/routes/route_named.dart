@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reservation_system/models/class/reservation.dart';
+import 'package:reservation_system/presentation/about_us/about_us_screen.dart';
 import 'package:reservation_system/presentation/change_password/change_password.dart';
 import 'package:reservation_system/presentation/confirm_reservation/confirm_reservation.dart';
 import 'package:reservation_system/presentation/confirm_reservation/reservation_payment.dart';
@@ -44,6 +45,7 @@ class Routenamed {
   static const String reviewRestaurant = "/reviewRestaurant";
   static const String happydeal = "/happydeals";
   static const String happydealReservation = "/happydealReservation";
+  static const String aboutus = "/aboutUs";
 
   static Route<dynamic>? generateRouted(RouteSettings settings) {
     switch (settings.name) {
@@ -155,6 +157,8 @@ class Routenamed {
       case profilescreen:
         return MaterialPageRoute(builder: (context) => EditProfile());
 
+      case aboutus:
+        return MaterialPageRoute(builder: (context) => AboutUsScreen());
       case changepass:
         return MaterialPageRoute(builder: (context) => ChangePassword());
 

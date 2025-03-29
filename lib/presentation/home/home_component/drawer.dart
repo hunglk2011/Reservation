@@ -118,7 +118,13 @@ Widget _buildMenuOptions(BuildContext context) {
           Navigator.pushNamed(context, Routenamed.reservationHistory);
         },
       ),
-      MenuCard(name: "About us", iconName: Icon(Icons.info), onPressed: () {}),
+      MenuCard(
+        name: "About us",
+        iconName: Icon(Icons.info),
+        onPressed: () {
+          Navigator.pushNamed(context, Routenamed.aboutus);
+        },
+      ),
       BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
           if (state is AuththenticateSuccess) {

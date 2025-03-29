@@ -6,6 +6,7 @@ class ProductCard extends StatelessWidget {
   final String address;
   final String? image;
   final VoidCallback? onchanged;
+
   const ProductCard({
     super.key,
     required this.nameProduct,
@@ -32,11 +33,17 @@ class ProductCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Image.network(
-            image ?? "",
-            width: 148,
-            height: 100,
-            fit: BoxFit.contain,
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            child: Image.network(
+              image ?? "",
+              width: 152,
+              height: 124,
+              fit: BoxFit.cover,
+            ),
           ),
           Expanded(
             child: Column(
@@ -46,7 +53,7 @@ class ProductCard extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 2),
                   child: Text(
                     nameProduct,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       color: Color(0xff483332),
@@ -57,12 +64,12 @@ class ProductCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.place_rounded, size: 14),
+                    const Icon(Icons.place_rounded, size: 14),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
                         address,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                           fontFamily: "Montserrat",

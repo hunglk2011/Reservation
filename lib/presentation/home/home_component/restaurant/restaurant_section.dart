@@ -67,6 +67,6 @@ Widget _buildBody(BuildContext context, List<Restaurant> restaurants) =>
               );
             },
           ),
-      separatorBuilder: (context, index) => Divider(),
+      separatorBuilder: (context, index) => SizedBox(height: 10),
       itemCount: 3,
     );

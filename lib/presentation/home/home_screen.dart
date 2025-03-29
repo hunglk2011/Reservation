@@ -106,7 +106,7 @@ class _BodyNoLoggedin extends StatelessWidget {
         children: [
           SlideShow(),
           SizedBox(height: 24),
-          BestSellerSectionNotLogin(),
+          SizedBox(height: 260, child: BestSellerSectionNotLogin()),
           SizedBox(height: 12),
           RestaurantSectionNoLogin(),
           DiscountSection(),

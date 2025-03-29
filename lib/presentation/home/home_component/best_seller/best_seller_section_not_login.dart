@@ -32,12 +32,15 @@ class BestSellerSectionNotLogin extends StatelessWidget {
                     .whereType<Product>()
                     .toList();
 
-            return UISection(
-              title: 'Best seller',
-              body: BuildBody(products: result),
-              onPress: () {
-                Navigator.pushNamed(context, Routenamed.seeAllBestSeller);
-              },
+            return SizedBox(
+              height: 300,
+              child: UISection(
+                title: 'Best seller',
+                body: BuildBody(products: result),
+                onPress: () {
+                  Navigator.pushNamed(context, Routenamed.seeAllBestSeller);
+                },
+              ),
             );
           }
           return UISection(
@@ -57,11 +60,11 @@ class BuildBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 210,
+      height: 240,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: products.length,
         physics: BouncingScrollPhysics(),
+        itemCount: products.length,
         itemBuilder: (context, index) {
           return ProductCard(
             nameProduct: products[index].nameProduct,
@@ -88,7 +91,6 @@ class BuildBody extends StatelessWidget {
             },
           );
         },
-        shrinkWrap: true,
         separatorBuilder: (context, index) => SizedBox(width: 10),
       ),
     );

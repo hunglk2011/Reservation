@@ -20,13 +20,16 @@ class DiscountSection extends StatelessWidget {
 }
 
 Widget _buildBody(BuildContext context) => SizedBox(
-  height: 200,
-  child: ListView.separated(
-    itemCount: 1,
-    scrollDirection: Axis.horizontal,
-    physics: BouncingScrollPhysics(),
-    shrinkWrap: true,
-    itemBuilder: (context, index) => DiscountCard(),
-    separatorBuilder: (context, index) => Divider(),
+  height: 120,
+  child: Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: ListView.separated(
+      itemCount: 4,
+      scrollDirection: Axis.horizontal,
+      physics: BouncingScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (context, index) => DiscountCard(),
+      separatorBuilder: (context, index) => SizedBox(width: 10),
+    ),
   ),
 );
