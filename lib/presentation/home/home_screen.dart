@@ -5,7 +5,8 @@ import 'package:reservation_system/bloc/authentication/authentication_state.dart
 import 'package:reservation_system/component/textinput/ui_text_input.dart';
 import 'package:reservation_system/presentation/home/home_component/best_seller/best_seller_section.dart';
 import 'package:reservation_system/presentation/home/home_component/best_seller/best_seller_section_not_login.dart';
-import 'package:reservation_system/presentation/home/home_component/discount_section.dart';
+import 'package:reservation_system/presentation/home/home_component/discount/discount_section.dart';
+import 'package:reservation_system/presentation/home/home_component/discount/discount_section_no_login.dart';
 import 'package:reservation_system/presentation/home/home_component/drawer.dart';
 import 'package:reservation_system/presentation/home/home_component/restaurant/restaurant_section.dart';
 import 'package:reservation_system/presentation/home/home_component/restaurant/restaurant_section_no_login.dart';
@@ -46,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(width: 4),
             Text(
               "Dong Khoi st, District 1",
-              style: TextStyle(fontSize: 13),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               overflow: TextOverflow.ellipsis,
             ),
           ],
@@ -87,9 +88,9 @@ class _BodyLoggedin extends StatelessWidget {
       child: Column(
         children: [
           SlideShow(),
-          SizedBox(height: 24),
+          SizedBox(height: 20),
           BestSellerSection(),
-          SizedBox(height: 12),
+          SizedBox(height: 20),
           RestaurantSection(),
           DiscountSection(),
         ],
@@ -105,11 +106,11 @@ class _BodyNoLoggedin extends StatelessWidget {
       child: Column(
         children: [
           SlideShow(),
-          SizedBox(height: 24),
-          SizedBox(height: 260, child: BestSellerSectionNotLogin()),
-          SizedBox(height: 12),
+          SizedBox(height: 20),
+          SizedBox(height: 300, child: BestSellerSectionNotLogin()),
+          SizedBox(height: 20),
           RestaurantSectionNoLogin(),
-          DiscountSection(),
+          DiscountSectionNoLogin(),
         ],
       ),
     );

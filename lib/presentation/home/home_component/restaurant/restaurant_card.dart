@@ -93,10 +93,6 @@ class _RestaurantCardState extends State<RestaurantCard> {
                             text: "reserve",
                             onPressed: widget.onchanged,
                           ),
-                          IconButton(
-                            onPressed: widget.onDelete,
-                            icon: Icon(Icons.delete),
-                          ),
                         ],
                       )
                       : ReserveButton(

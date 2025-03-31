@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../../models/class/notification.dart';
@@ -6,7 +7,10 @@ import '../../../models/class/reservation.dart';
 extension NotificationExtension on NotificationModel {
   Widget getNotificationMessage() {
     if (reservation == null) {
-      return Text("Your reservation details are missing.");
+      return Text(
+        "Your reservation details are missing.",
+        style: TextStyle(color: Colors.black), // Đặt màu chữ thành đen
+      );
     }
     String reservationId = reservation!.id ?? id;
 
@@ -15,10 +19,16 @@ extension NotificationExtension on NotificationModel {
         return RichText(
           text: TextSpan(
             text: "Reservation",
+            style: TextStyle(
+              color: Colors.black,
+            ), // Đảm bảo toàn bộ text có màu đen
             children: [
               TextSpan(
                 text: " #$reservationId ",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
               TextSpan(text: "has been finished successfully. Review Now"),
             ],
@@ -29,10 +39,14 @@ extension NotificationExtension on NotificationModel {
         return RichText(
           text: TextSpan(
             text: "Reservation",
+            style: TextStyle(color: Colors.black),
             children: [
               TextSpan(
                 text: " #$reservationId ",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
               TextSpan(
                 text:
@@ -41,7 +55,10 @@ extension NotificationExtension on NotificationModel {
               TextSpan(text: "Total deposit "),
               TextSpan(
                 text: "${reservation!.amount} VND",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
             ],
           ),
@@ -51,10 +68,14 @@ extension NotificationExtension on NotificationModel {
         return RichText(
           text: TextSpan(
             text: "Reservation",
+            style: TextStyle(color: Colors.black),
             children: [
               TextSpan(
                 text: " #$reservationId ",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
               TextSpan(text: "has been cancelled.\n"),
               TextSpan(text: "You will be refunded in 5 days."),
@@ -66,10 +87,14 @@ extension NotificationExtension on NotificationModel {
         return RichText(
           text: TextSpan(
             text: "Reservation",
+            style: TextStyle(color: Colors.black),
             children: [
               TextSpan(
                 text: " #$reservationId ",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
               TextSpan(text: "has been confirmed. Please go on time!"),
             ],
@@ -80,10 +105,14 @@ extension NotificationExtension on NotificationModel {
         return RichText(
           text: TextSpan(
             text: "Reservation",
+            style: TextStyle(color: Colors.black),
             children: [
               TextSpan(
                 text: " #$reservationId ",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
               TextSpan(text: "has been deposited successfully."),
             ],
@@ -91,7 +120,10 @@ extension NotificationExtension on NotificationModel {
         );
 
       default:
-        return Text("Your reservation is pending");
+        return Text(
+          "Your reservation is pending",
+          style: TextStyle(color: Colors.black),
+        );
     }
   }
 }

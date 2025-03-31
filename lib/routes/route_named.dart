@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:reservation_system/models/class/happy_deal.dart';
 import 'package:reservation_system/models/class/reservation.dart';
 import 'package:reservation_system/presentation/about_us/about_us_screen.dart';
 import 'package:reservation_system/presentation/change_password/change_password.dart';
 import 'package:reservation_system/presentation/confirm_reservation/confirm_reservation.dart';
 import 'package:reservation_system/presentation/confirm_reservation/reservation_payment.dart';
 import 'package:reservation_system/presentation/forgot_password/forgot_password_screen.dart';
+import 'package:reservation_system/presentation/happy_deal/happy_deal_detail.dart';
 import 'package:reservation_system/presentation/happy_deal/happy_deal_reservation_screen.dart';
 import 'package:reservation_system/presentation/happy_deal/happy_deal_screen.dart';
 import 'package:reservation_system/presentation/home/home_screen.dart';
@@ -44,6 +46,7 @@ class Routenamed {
   static const String reservationDetail = "/reservationDetail";
   static const String reviewRestaurant = "/reviewRestaurant";
   static const String happydeal = "/happydeals";
+  static const String happydealDetail = "/happydealDetail";
   static const String happydealReservation = "/happydealReservation";
   static const String aboutus = "/aboutUs";
 
@@ -146,9 +149,17 @@ class Routenamed {
       case happydeal:
         return MaterialPageRoute(builder: (context) => HappyDealScreen());
 
+      case happydealDetail:
+        final data = settings.arguments as Map<String, dynamic>;
+        final id = data["id"] as String;
+        return MaterialPageRoute(builder: (context) => HappyDealDetail(id: id));
+
       case happydealReservation:
+        final data = settings.arguments as Map<String, dynamic>;
+        final happyDatas = HappyDeal.fromJson(data["happyDeal"]);
         return MaterialPageRoute(
-          builder: (context) => HappyDealReservationScreen(),
+          builder:
+              (context) => HappyDealReservationScreen(happyDeal: happyDatas),
         );
 
       case payment:

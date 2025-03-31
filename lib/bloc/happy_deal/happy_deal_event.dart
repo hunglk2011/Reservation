@@ -1,4 +1,4 @@
-import 'package:reservation_system/models/class/happy_deal.dart';
+import '../../models/class/reservation.dart';
 
 sealed class HappyDealEvent {}
 
@@ -10,6 +10,6 @@ class FetchHappyDealDetail extends HappyDealEvent {
 }
 
 class ReserveHappyDeal extends HappyDealEvent {
-  HappyDeal happyDeal;
-  ReserveHappyDeal({required this.happyDeal});
+  final Reservation reservation;
+  ReserveHappyDeal({required this.reservation});
 }

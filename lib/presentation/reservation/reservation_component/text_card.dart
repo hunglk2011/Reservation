@@ -24,6 +24,7 @@ class TextCard extends StatelessWidget {
           ],
         ),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(itemIcon.icon, color: Color(0xffAD3F32)),

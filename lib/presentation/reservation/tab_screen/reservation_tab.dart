@@ -42,7 +42,7 @@ class _ReservationTabState extends State<ReservationTab> {
     if (state is AuththenticateSuccess) {
       fullNameText.text = state.user.name ?? "";
       phoneNumberText.text = state.user.phoneNumber ?? "";
-      emailText.text = state.user.email ?? "";
+      emailText.text = state.user.email ?? "user123@gmail.com";
     }
   }
 

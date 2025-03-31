@@ -16,9 +16,11 @@ class UISection extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(minHeight: 50, maxHeight: double.infinity),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [_buildTitle(context), body],
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [_buildTitle(context), body],
+        ),
       ),
     );
   }

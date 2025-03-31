@@ -32,15 +32,12 @@ class BestSellerSectionNotLogin extends StatelessWidget {
                     .whereType<Product>()
                     .toList();
 
-            return SizedBox(
-              height: 300,
-              child: UISection(
-                title: 'Best seller',
-                body: BuildBody(products: result),
-                onPress: () {
-                  Navigator.pushNamed(context, Routenamed.seeAllBestSeller);
-                },
-              ),
+            return UISection(
+              title: 'Best seller',
+              body: SizedBox(height: 240, child: BuildBody(products: result)),
+              onPress: () {
+                Navigator.pushNamed(context, Routenamed.seeAllBestSeller);
+              },
             );
           }
           return UISection(
@@ -59,40 +56,37 @@ class BuildBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 240,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        physics: BouncingScrollPhysics(),
-        itemCount: products.length,
-        itemBuilder: (context, index) {
-          return ProductCard(
-            nameProduct: products[index].nameProduct,
-            address: products[index].address ?? "280 An Duong Vuong",
-            image: products[index].imageProduct,
-            onchanged: () {
-              UiDialog.show(
-                context,
-                title: "Information",
-                content: Text("Please login to use our services"),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text("Cancel"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(context, Routenamed.login);
-                    },
-                    child: Text("Login"),
-                  ),
-                ],
-              );
-            },
-          );
-        },
-        separatorBuilder: (context, index) => SizedBox(width: 10),
-      ),
+    return ListView.separated(
+      scrollDirection: Axis.horizontal,
+      physics: BouncingScrollPhysics(),
+      itemCount: products.length,
+      itemBuilder: (context, index) {
+        return ProductCard(
+          nameProduct: products[index].nameProduct,
+          address: products[index].address ?? "280 An Duong Vuong",
+          image: products[index].imageProduct,
+          onchanged: () {
+            UiDialog.show(
+              context,
+              title: "Information",
+              content: Text("Please login to use our services"),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text("Cancel"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, Routenamed.login);
+                  },
+                  child: Text("Login"),
+                ),
+              ],
+            );
+          },
+        );
+      },
+      separatorBuilder: (context, index) => SizedBox(width: 10),
     );
   }
 }

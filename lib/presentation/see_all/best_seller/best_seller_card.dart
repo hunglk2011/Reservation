@@ -21,7 +21,7 @@ class BestSellerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 327,
-      height: 120,
+      height: 130,
       margin: const EdgeInsets.symmetric(vertical: 6),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(

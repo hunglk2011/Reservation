@@ -47,18 +47,16 @@ class _ConfirmReservationState extends State<ConfirmReservation> {
               ),
             ),
             Positioned(
-              top: MediaQuery.of(context).padding.top + 10,
+              top: MediaQuery.of(context).padding.top,
               left: 16,
               child: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                icon: Icon(Icons.arrow_back, color: Colors.white, size: 28),
+                onPressed: () => Navigator.pop(context),
               ),
             ),
 
             DraggableScrollableSheet(
-              initialChildSize: 0.66,
+              initialChildSize: 0.7,
               minChildSize: 0.4,
               maxChildSize: 0.9,
               builder: (context, scrollController) {
@@ -67,9 +65,16 @@ class _ConfirmReservationState extends State<ConfirmReservation> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24),
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 6,
+                        offset: Offset(0, -3),
+                      ),
+                    ],
                   ),
                   child: SingleChildScrollView(
                     controller: scrollController,
@@ -189,6 +194,58 @@ class _ConfirmReservationState extends State<ConfirmReservation> {
   }
 
   Widget _buildUserInfo() {
+    return _buildInfoCard([
+      Row(
+        children: [
+          CircleAvatar(
+            radius: 28,
+            backgroundImage: AssetImage(Assets.images.imageInfo.path),
+          ),
+          SizedBox(width: 12),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.reservation?.userInfo?.name ?? "",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(widget.reservation?.userInfo?.phoneNumber ?? ""),
+              Text(widget.reservation?.userInfo?.email ?? ""),
+            ],
+          ),
+        ],
+      ),
+    ]);
+  }
+
+  Widget _buildInfoRow(IconData icon, String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.red),
+          SizedBox(width: 8),
+          Expanded(child: Text(text, style: TextStyle(fontSize: 14))),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoCard(List<Widget> children) {
+    return Container(
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Color(0xffF6EFE8),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: children,
+      ),
+    );
+  }
+
+  Widget _buildDeposit(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(6.0),
       child: Container(
@@ -197,22 +254,33 @@ class _ConfirmReservationState extends State<ConfirmReservation> {
           color: Color(0xffF6EFE8),
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Row(
+        child: Column(
           children: [
-            CircleAvatar(
-              radius: 22,
-              backgroundImage: NetworkImage('https://via.placeholder.com/150'),
-            ),
-            SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  widget.reservation!.userInfo?.name ?? "",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                Icon(Icons.money),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Your deposit is 200,000VND',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Please pay within 30 minutes, if not, your reservation will be canceled automatically.',
+                          style: TextStyle(fontSize: 12, color: Colors.red),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                Text(widget.reservation!.userInfo?.phoneNumber ?? ""),
-                Text(widget.reservation!.userInfo?.email ?? ""),
               ],
             ),
           ],
@@ -220,61 +288,4 @@ class _ConfirmReservationState extends State<ConfirmReservation> {
       ),
     );
   }
-}
-
-Widget _buildInfoRow(IconData icon, String text) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 6),
-    child: Row(
-      children: [
-        Icon(icon, color: Colors.red),
-        SizedBox(width: 8),
-        Expanded(child: Text(text, style: TextStyle(fontSize: 14))),
-      ],
-    ),
-  );
-}
-
-Widget _buildDeposit(BuildContext context) {
-  return Padding(
-    padding: const EdgeInsets.all(6.0),
-    child: Container(
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Color(0xffF6EFE8),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Icon(Icons.money),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Your deposit is 200,000VND',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        'Please pay within 30 minutes, if not, your reservation will be canceled automatically.',
-                        style: TextStyle(fontSize: 12, color: Colors.red),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    ),
-  );
 }

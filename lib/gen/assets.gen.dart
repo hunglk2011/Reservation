@@ -65,6 +65,12 @@ class $AssetImagesGen {
   AssetGenImage get imageAbout =>
       const AssetGenImage('asset/images/img_about_us.png');
 
+  AssetGenImage get imageBeefSpice =>
+      const AssetGenImage('asset/images/img_beef_spice.png');
+
+  AssetGenImage get imageInfo =>
+      const AssetGenImage('asset/images/img_info.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
     imgBeef,

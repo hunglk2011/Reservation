@@ -4,6 +4,7 @@ import 'package:reservation_system/bloc/reservation_detail/reservation_detail_bl
 import 'package:reservation_system/bloc/reservation_detail/reservation_detail_event.dart';
 import 'package:reservation_system/bloc/reservation_detail/reservation_detail_state.dart';
 import 'package:reservation_system/component/button/ui_button.dart';
+import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/models/class/reservation.dart';
 import 'package:reservation_system/presentation/reservation_detail/component/timeline.dart';
 import 'package:reservation_system/routes/route_named.dart';
@@ -69,7 +70,7 @@ class _ReservationDetailScreenState extends State<ReservationDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "#78912",
+                        "#${reservationdata!.id.toString()}",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -99,7 +100,8 @@ class _ReservationDetailScreenState extends State<ReservationDetailScreen> {
                           onPressed: () {
                             Navigator.pushReplacementNamed(
                               context,
-                              Routenamed.confirmReservation,
+                              Routenamed.reservationscreen,
+                              arguments: reservationdata?.restaurantInfo?.id,
                             );
                           },
                         ),
@@ -171,7 +173,7 @@ Widget _buildUserInfo(BuildContext context, Reservation reservationData) {
         children: [
           CircleAvatar(
             radius: 22,
-            backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+            backgroundImage: AssetImage(Assets.images.imageInfo.path),
           ),
           SizedBox(width: 12),
           Column(

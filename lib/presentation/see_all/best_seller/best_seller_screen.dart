@@ -4,6 +4,7 @@ import 'package:reservation_system/bloc/restaurant_list/restaurant_list_bloc.dar
 import 'package:reservation_system/bloc/restaurant_list/restaurant_list_event.dart';
 import 'package:reservation_system/bloc/restaurant_list/restaurant_list_state.dart';
 import 'package:reservation_system/component/button/ui_dropdown_button.dart';
+import 'package:reservation_system/component/loading/ui_shimmer.dart';
 import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/models/class/product.dart';
 import 'package:reservation_system/models/share_preference/preferences.dart';
@@ -76,7 +77,7 @@ class _BestSellerScreenState extends State<BestSellerScreen> {
         body: BlocBuilder<RestaurantListBloc, RestaurantListState>(
           builder: (context, state) {
             if (state is RestaurantListLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return UiShimmer();
             } else if (state is RestaurantListFetchSuccess) {
               List<Product> allProducts =
                   state.restaurants

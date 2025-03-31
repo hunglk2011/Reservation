@@ -10,9 +10,12 @@ import 'package:reservation_system/presentation/reservation/tab_screen/menu_tab.
 import 'package:reservation_system/presentation/reservation/tab_screen/reservation_tab.dart';
 import 'package:reservation_system/presentation/reservation/tab_screen/review_tab.dart';
 
+import '../../models/class/reservation.dart';
+
 class ReservationScreen extends StatefulWidget {
   final String? restaurantId;
-  const ReservationScreen({super.key, this.restaurantId});
+  final Reservation? reservation;
+  const ReservationScreen({super.key, this.restaurantId, this.reservation});
 
   @override
   State<ReservationScreen> createState() => _ReservationScreenState();

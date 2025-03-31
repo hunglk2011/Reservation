@@ -19,52 +19,57 @@ class ReservationPayment extends StatelessWidget {
               ),
             ),
             DraggableScrollableSheet(
-              builder: (
-                BuildContext context,
-                ScrollController scrollController,
-              ) {
+              initialChildSize: 0.4,
+              minChildSize: 0.4,
+              maxChildSize: 0.7,
+              builder: (context, scrollController) {
                 return Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.all(20),
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                      ),
+                    ],
                   ),
                   child: SingleChildScrollView(
                     controller: scrollController,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Image.asset(
                           Assets.images.imageGreenTick.path,
                           width: 85,
                           height: 85,
                         ),
-                        Text(
+                        const SizedBox(height: 16),
+                        const Text(
                           "Your reservation is confirmed!",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                            letterSpacing: 0.3,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
                             color: Colors.green,
                           ),
                         ),
-                        SizedBox(height: 14),
-                        Text(
-                          "Your deposit for Reservation 716001 is 200.000VND. "
-                          "Do you want to pay now?",
+                        const SizedBox(height: 16),
+                        const Text(
+                          "Your deposit for Reservation 716001 is 200.000 VND. \nDo you want to pay now?",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: FontWeight.w600,
-                            letterSpacing: 0.3,
                             color: Colors.black,
                           ),
                         ),
-                        SizedBox(height: 14),
+                        const SizedBox(height: 24),
                         CustomButton(
                           text: "PAYMENT",
                           onPressed: () {
@@ -74,15 +79,14 @@ class ReservationPayment extends StatelessWidget {
                             );
                           },
                         ),
-                        SizedBox(height: 20),
-                        Text(
+                        const SizedBox(height: 20),
+                        const Text(
                           "Note: If the customer cancels the reservation due to subjective reasons, the restaurant will not be responsible for refunding the deposit.",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
-                            letterSpacing: 0.3,
-                            color: Colors.black,
+                            color: Colors.black54,
                           ),
                         ),
                       ],

@@ -6,6 +6,7 @@ import 'package:reservation_system/bloc/restaurant_list/restaurant_list_bloc.dar
 import 'package:reservation_system/bloc/restaurant_list/restaurant_list_event.dart';
 import 'package:reservation_system/bloc/restaurant_list/restaurant_list_state.dart';
 import 'package:reservation_system/component/button/ui_dropdown_button.dart';
+import 'package:reservation_system/component/loading/ui_shimmer.dart';
 import 'package:reservation_system/models/class/restaurant.dart';
 import 'package:reservation_system/presentation/home/home_component/restaurant/restaurant_card.dart';
 import 'package:reservation_system/routes/route_named.dart';
@@ -78,11 +79,10 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
         ),
         body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
-            print("Bloc State: $state");
             return BlocBuilder<RestaurantListBloc, RestaurantListState>(
               builder: (context, state) {
                 if (state is RestaurantListLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return UiShimmer();
                 } else if (state is RestaurantListFetchFailure) {
                   return Center(child: Text("Error: ${state.error}"));
                 } else if (state is RestaurantListFetchSuccess) {
