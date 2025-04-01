@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reservation_system/bloc/authentication/authentication_bloc.dart';
+import 'package:reservation_system/bloc/authentication/authentication_state.dart';
 import 'package:reservation_system/bloc/restaurant_list/restaurant_list_bloc.dart';
 import 'package:reservation_system/bloc/restaurant_list/restaurant_list_event.dart';
 import 'package:reservation_system/bloc/restaurant_list/restaurant_list_state.dart';
@@ -7,8 +9,10 @@ import 'package:reservation_system/component/button/ui_dropdown_button.dart';
 import 'package:reservation_system/component/loading/ui_shimmer.dart';
 import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/models/class/product.dart';
-import 'package:reservation_system/models/share_preference/preferences.dart';
 import 'package:reservation_system/presentation/see_all/best_seller/best_seller_card.dart';
+
+import '../../../component/dialog/ui_dialog.dart';
+import '../../../routes/route_named.dart';
 
 class BestSellerScreen extends StatefulWidget {
   const BestSellerScreen({super.key});
@@ -74,27 +78,36 @@ class _BestSellerScreenState extends State<BestSellerScreen> {
             ],
           ),
         ),
-        body: BlocBuilder<RestaurantListBloc, RestaurantListState>(
+        body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
-            if (state is RestaurantListLoading) {
-              return UiShimmer();
-            } else if (state is RestaurantListFetchSuccess) {
-              List<Product> allProducts =
-                  state.restaurants
-                      .map((restaurant) => restaurant.product)
-                      .whereType<Product>()
-                      .toList();
+            return BlocBuilder<RestaurantListBloc, RestaurantListState>(
+              builder: (context, state) {
+                if (state is RestaurantListLoading) {
+                  return UiShimmer();
+                } else if (state is RestaurantListFetchSuccess) {
+                  List<Product> allProducts =
+                      state.restaurants
+                          .map((restaurant) => restaurant.product)
+                          .whereType<Product>()
+                          .toList();
 
-              return SingleChildScrollView(
-                child: SafeArea(
-                  child: _buildBody(
-                    context,
-                    filterProducts.isNotEmpty ? filterProducts : allProducts,
-                  ),
-                ),
-              );
-            }
-            return const Center(child: Text("No data available"));
+                  return SingleChildScrollView(
+                    child: SafeArea(
+                      child:
+                          state is AuththenticateSuccess
+                              ? _buildBody(
+                                context,
+                                filterProducts.isNotEmpty
+                                    ? filterProducts
+                                    : allProducts,
+                              )
+                              : _buildBodyNoLogin(context, allProducts),
+                    ),
+                  );
+                }
+                return const Center(child: Text("No data available"));
+              },
+            );
           },
         ),
       ),
@@ -117,23 +130,61 @@ Widget _buildBody(BuildContext context, List<Product> products) {
             products[index].imageProduct ?? Assets.images.imgLogoIcon.path,
         reviewCount: products[index].reviewCount,
         onPressed: () async {
-          List<Map<String, dynamic>>? savedFoods =
-              AppPreference.getJsonData("reserved_foods") ?? [];
+          // List<Map<String, dynamic>>? savedFoods =
+          //     AppPreference.getJsonData("reserved_foods") ?? [];
 
-          savedFoods.add({
-            "name": products[index].nameProduct,
-            "description": products[index].descriptionProduct,
-            "image":
-                products[index].imageProduct ?? Assets.images.imgLogoIcon.path,
-          });
+          // savedFoods.add({
+          //   "name": products[index].nameProduct,
+          //   "description": products[index].descriptionProduct,
+          //   "image":
+          //       products[index].imageProduct ?? Assets.images.imgLogoIcon.path,
+          // });
 
-          await AppPreference.saveJsonData("reserved_foods", savedFoods);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                "${products[index].nameProduct} has been reserved!",
+          // await AppPreference.saveJsonData("reserved_foods", savedFoods);
+          Navigator.pushNamed(
+            context,
+            Routenamed.reservationscreen,
+            arguments: products[index].id,
+          );
+        },
+      );
+    },
+    separatorBuilder: (context, index) => const Divider(),
+    itemCount: products.length,
+  );
+}
+
+Widget _buildBodyNoLogin(BuildContext context, List<Product> products) {
+  if (products.isEmpty) {
+    return const Center(child: Text("No best sellers found."));
+  }
+  return ListView.separated(
+    physics: const NeverScrollableScrollPhysics(),
+    shrinkWrap: true,
+    itemBuilder: (context, index) {
+      return BestSellerCard(
+        title: products[index].nameProduct,
+        subtitle: products[index].descriptionProduct,
+        imagePath:
+            products[index].imageProduct ?? Assets.images.imgLogoIcon.path,
+        reviewCount: products[index].reviewCount,
+        onPressed: () {
+          UiDialog.show(
+            context,
+            title: "Information",
+            content: Text("Please login to use our services"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text("Cancel"),
               ),
-            ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, Routenamed.login);
+                },
+                child: Text("Login"),
+              ),
+            ],
           );
         },
       );
