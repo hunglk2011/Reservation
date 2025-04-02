@@ -29,8 +29,12 @@ class _HappyDealScreenState extends State<HappyDealScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HappyDealBloc()..add(FetchHappyDealData()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => HappyDealBloc()..add(FetchHappyDealData()),
+        ),
+      ],
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
@@ -40,7 +44,7 @@ class _HappyDealScreenState extends State<HappyDealScreen> {
             ),
           ),
           body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-            builder: (context, state) {
+            builder: (context, authState) {
               return BlocBuilder<HappyDealBloc, HappyDealState>(
                 builder: (context, state) {
                   if (state is HappyDealLoading) {
@@ -91,35 +95,37 @@ class _HappyDealScreenState extends State<HappyDealScreen> {
                                         "No description available",
                                   ],
                                   onPressed: () {
-                                    state is AuththenticateSuccess
-                                        ? Navigator.pushNamed(
-                                          context,
-                                          Routenamed.happydealDetail,
-                                          arguments: {"id": deals[index].id},
-                                        )
-                                        : UiDialog.show(
-                                          context,
-                                          title: "Information",
-                                          content: Text(
-                                            "Please login to use our services",
+                                    if (authState is AuththenticateSuccess) {
+                                      Navigator.pushNamed(
+                                        context,
+                                        Routenamed.happydealDetail,
+                                        arguments: {"id": deals[index].id},
+                                      );
+                                    } else {
+                                      UiDialog.show(
+                                        context,
+                                        title: "Information",
+                                        content: Text(
+                                          "Please login to use our services",
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed:
+                                                () => Navigator.pop(context),
+                                            child: Text("Cancel"),
                                           ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed:
-                                                  () => Navigator.pop(context),
-                                              child: Text("Cancel"),
-                                            ),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.pushReplacementNamed(
-                                                  context,
-                                                  Routenamed.login,
-                                                );
-                                              },
-                                              child: Text("Login"),
-                                            ),
-                                          ],
-                                        );
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pushReplacementNamed(
+                                                context,
+                                                Routenamed.login,
+                                              );
+                                            },
+                                            child: Text("Login"),
+                                          ),
+                                        ],
+                                      );
+                                    }
                                   },
                                 );
                               },
