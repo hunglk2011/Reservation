@@ -59,8 +59,8 @@ class _SignupScreenState extends State<SignupScreen> {
           if (state is AuththenticateSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('FORM is OK CAN LOGIN'),
-                backgroundColor: Colors.green,
+                content: Text('Signup Successfully'),
+                backgroundColor: Colors.black,
               ),
             );
             Future.delayed(const Duration(seconds: 3), () {

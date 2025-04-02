@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:reservation_system/component/button/ui_button.dart';
 import 'package:reservation_system/component/dialog/ui_dialog.dart';
 import 'package:reservation_system/component/textinput/ui_text_input.dart';
+import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/models/validator_login/validator.dart';
 import 'package:reservation_system/routes/route_named.dart';
 
@@ -33,7 +34,11 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 16),
-                    Image.asset('asset/Logo.png', width: 211, height: 102),
+                    Image.asset(
+                      Assets.images.imgLogoBbq.path,
+                      width: 211,
+                      height: 102,
+                    ),
                     const SizedBox(height: 16),
                     const Text(
                       "ENTER YOUR NEW PASSWORD",

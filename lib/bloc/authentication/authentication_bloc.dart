@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reservation_system/bloc/authentication/authentication_event.dart';
 import 'package:reservation_system/bloc/authentication/authentication_state.dart';
@@ -26,13 +25,13 @@ class AuthenticationBloc
         name: event.user.name,
         phoneNumber: event.user.phoneNumber,
         password: event.user.password,
+        email: event.user.email,
       );
 
       await AppPreference.prefs?.setString(
         "userKey",
         jsonEncode(user.toJson()),
       );
-
       emit(AuththenticateSuccess(user: user));
     });
 
@@ -64,17 +63,25 @@ class AuthenticationBloc
 
     on<AuthInfoChanged>((event, emit) async {
       if (state is AuththenticateSuccess) {
-        var newState = state as AuththenticateSuccess;
+        try {
+          var newState = state as AuththenticateSuccess;
 
-        var newData = newState.user.copyWith(
-          email: event.userModel.email,
-          phone: event.userModel.phoneNumber,
-          name: event.userModel.name,
-          password: event.userModel.password,
-        );
-        await AppPreference.updateData(newData, "userKey");
+          var newData = newState.user.copyWith(
+            email: event.userModel.email ?? newState.user.email,
+            phone: event.userModel.phoneNumber ?? newState.user.phoneNumber,
+            name: event.userModel.name ?? newState.user.name,
+            password:
+                event.userModel.password?.isNotEmpty == true
+                    ? event.userModel.password
+                    : newState.user.password,
+          );
 
-        emit(AuththenticateSuccess(user: newData));
+          await AppPreference.updateData(newData, "userKey");
+
+          emit(AuththenticateSuccess(user: newData));
+        } catch (e) {
+          emit(AuthenticateFailure());
+        }
       }
     });
   }

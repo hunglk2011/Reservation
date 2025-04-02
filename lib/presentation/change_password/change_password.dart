@@ -17,20 +17,11 @@ class ChangePassword extends StatefulWidget {
 
 class _ChangePasswordState extends State<ChangePassword> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController currentPassController = TextEditingController();
-  TextEditingController newPasswordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController currentPassController = TextEditingController();
+  final TextEditingController newPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   String? currentPassword;
-
-  @override
-  void initState() {
-    super.initState();
-    final state = context.read<AuthenticationBloc>().state;
-    if (state is AuththenticateSuccess) {
-      currentPassword = state.user.password;
-      // currentPassController.text = currentPassword ?? "";
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +34,7 @@ class _ChangePasswordState extends State<ChangePassword> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
         ),
         actions: [
           TextButton(
@@ -57,7 +46,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                   ),
                 );
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('change Password success!')),
+                  const SnackBar(
+                    content: Text('Password changed successfully!'),
+                  ),
                 );
                 Navigator.pop(context);
               }
@@ -102,18 +93,14 @@ class _ChangePasswordState extends State<ChangePassword> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 20),
-
               Form(
                 key: _formKey,
                 child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
                   builder: (context, state) {
-                    var data = User();
                     if (state is AuththenticateSuccess) {
-                      data = state.user;
+                      currentPassword = state.user.password ?? '';
                     }
-                    currentPassController.text = data.password.toString();
                     return Column(
                       children: [
                         UITextInput(
@@ -133,7 +120,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         ),
                         const SizedBox(height: 10),
                         UITextInput(
-                          hintText: "new Password",
+                          hintText: "New Password",
                           type: "password",
                           obscureText: true,
                           controller: newPasswordController,
@@ -141,7 +128,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         ),
                         const SizedBox(height: 10),
                         UITextInput(
-                          hintText: "confirm Password",
+                          hintText: "Confirm Password",
                           type: "password",
                           obscureText: true,
                           controller: confirmPasswordController,
@@ -156,7 +143,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                   },
                 ),
               ),
-
               const SizedBox(height: 50),
             ],
           ),

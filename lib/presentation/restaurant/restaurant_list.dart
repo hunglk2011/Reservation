@@ -21,26 +21,21 @@ class RestaurantListScreen extends StatefulWidget {
 }
 
 class _RestaurantListScreenState extends State<RestaurantListScreen> {
-  List<String> categories = ["All", "DESC STARS", "ASC STARS"];
+  List<String> categories = ["All", "A-Z", "Z-A"];
   List<Restaurant> filterRestaurant = [];
   String selectedCategory = "All";
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   void filterCategories(String category, List<Restaurant> restaurants) {
     setState(() {
       selectedCategory = category;
       switch (category) {
-        case "DESC STARS":
+        case "A-Z":
           filterRestaurant = List.from(restaurants)
-            ..sort((a, b) => b.address!.compareTo(a.address!));
+            ..sort((a, b) => a.nameRestaurant!.compareTo(b.nameRestaurant!));
           break;
-        case "ASC STARS":
+        case "Z-A":
           filterRestaurant = List.from(restaurants)
-            ..sort((a, b) => a.address!.compareTo(b.address!));
+            ..sort((a, b) => b.nameRestaurant!.compareTo(a.nameRestaurant!));
           break;
         default:
           filterRestaurant = List.from(restaurants);
@@ -65,13 +60,18 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                   color: Color(0xff483332),
                 ),
               ),
-              UIDropdownButton(
-                itemList: categories,
-                value: selectedCategory,
-                onChanged: (value) {
-                  value != null
-                      ? filterCategories(value, filterRestaurant)
-                      : "";
+              BlocBuilder<RestaurantListBloc, RestaurantListState>(
+                builder: (context, state) {
+                  return UIDropdownButton(
+                    itemList: categories,
+                    value: selectedCategory,
+                    onChanged: (value) {
+                      if (value != null &&
+                          state is RestaurantListFetchSuccess) {
+                        filterCategories(value, state.restaurants);
+                      }
+                    },
+                  );
                 },
               ),
             ],
@@ -86,13 +86,22 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                 } else if (state is RestaurantListFetchFailure) {
                   return Center(child: Text("Error: ${state.error}"));
                 } else if (state is RestaurantListFetchSuccess) {
-                  filterRestaurant = List.from(state.restaurants);
                   return SingleChildScrollView(
                     child: SafeArea(
                       child:
                           state is AuththenticateSuccess
-                              ? _buildBody(context, filterRestaurant)
-                              : _buildBodyNoLoggedin(context, filterRestaurant),
+                              ? _buildBody(
+                                context,
+                                filterRestaurant.isNotEmpty
+                                    ? filterRestaurant
+                                    : state.restaurants,
+                              )
+                              : _buildBodyNoLoggedin(
+                                context,
+                                filterRestaurant.isNotEmpty
+                                    ? filterRestaurant
+                                    : state.restaurants,
+                              ),
                     ),
                   );
                 }

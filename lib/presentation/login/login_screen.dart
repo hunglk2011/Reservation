@@ -26,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passwordController = TextEditingController();
   bool _rememberMe = false;
   bool _isLogin = false;
+  String? email;
 
   @override
   void initState() {
@@ -43,6 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         phonenumberController.text = user.phoneNumber ?? "";
         passwordController.text = user.password ?? "";
+        email = user.email;
       });
     }
   }
@@ -54,9 +56,14 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       final phoneNumber = phonenumberController.text;
       final password = passwordController.text;
+      final emailData = email;
 
       context.read<AuthenticationBloc>().add(
-        LoginRequested(phoneNumber: phoneNumber, password: password),
+        LoginRequested(
+          phoneNumber: phoneNumber,
+          password: password,
+          email: emailData,
+        ),
       );
     }
   }

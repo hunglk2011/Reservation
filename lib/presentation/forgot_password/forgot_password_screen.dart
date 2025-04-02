@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reservation_system/component/button/ui_button.dart';
 import 'package:reservation_system/component/textinput/ui_text_input.dart';
+import 'package:reservation_system/gen/assets.gen.dart';
 import 'package:reservation_system/models/validator_login/validator.dart';
 import 'package:reservation_system/routes/route_named.dart';
 
@@ -30,7 +31,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.asset('asset/Logo.png', width: 211, height: 102),
+                    Image.asset(
+                      Assets.images.imgLogoBbq.path,
+                      width: 211,
+                      height: 102,
+                    ),
                     const SizedBox(height: 14),
                     const Text(
                       "Forgot Password",

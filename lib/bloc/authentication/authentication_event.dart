@@ -7,8 +7,13 @@ class AppStarted extends AuthenticationEvent {}
 class LoginRequested extends AuthenticationEvent {
   final String phoneNumber;
   final String password;
+  final String? email;
 
-  LoginRequested({required this.phoneNumber, required this.password});
+  LoginRequested({
+    required this.phoneNumber,
+    required this.password,
+    this.email,
+  });
 }
 
 class LogoutRequested extends AuthenticationEvent {}

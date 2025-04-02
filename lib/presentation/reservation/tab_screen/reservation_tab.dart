@@ -43,6 +43,7 @@ class _ReservationTabState extends State<ReservationTab> {
       fullNameText.text = state.user.name ?? "";
       phoneNumberText.text = state.user.phoneNumber ?? "";
       emailText.text = state.user.email ?? "user123@gmail.com";
+      print("abcd:${state.user.email}");
     }
   }
 

@@ -25,11 +25,12 @@ class _BestSellerScreenState extends State<BestSellerScreen> {
   List<String> categories = ["All", "DESC STARS", "ASC STARS"];
   List<Product> filterProducts = [];
   String selectedCategory = "All";
+  List<Product> allProducts = [];
 
-  void filterCategories(String category, List<Product> products) {
-    if (products.isEmpty) return;
+  void filterCategories(String category) {
+    if (allProducts.isEmpty) return;
 
-    List<Product> sortedProducts = List.from(products);
+    List<Product> sortedProducts = List.from(allProducts);
     switch (category) {
       case "DESC STARS":
         sortedProducts.sort(
@@ -71,7 +72,7 @@ class _BestSellerScreenState extends State<BestSellerScreen> {
                 value: selectedCategory,
                 onChanged: (value) {
                   if (value != null) {
-                    filterCategories(value, filterProducts);
+                    filterCategories(value);
                   }
                 },
               ),
@@ -79,14 +80,14 @@ class _BestSellerScreenState extends State<BestSellerScreen> {
           ),
         ),
         body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-          builder: (context, state) {
+          builder: (context, authState) {
             return BlocBuilder<RestaurantListBloc, RestaurantListState>(
-              builder: (context, state) {
-                if (state is RestaurantListLoading) {
+              builder: (context, listState) {
+                if (listState is RestaurantListLoading) {
                   return UiShimmer();
-                } else if (state is RestaurantListFetchSuccess) {
-                  List<Product> allProducts =
-                      state.restaurants
+                } else if (listState is RestaurantListFetchSuccess) {
+                  allProducts =
+                      listState.restaurants
                           .map((restaurant) => restaurant.product)
                           .whereType<Product>()
                           .toList();
@@ -94,14 +95,19 @@ class _BestSellerScreenState extends State<BestSellerScreen> {
                   return SingleChildScrollView(
                     child: SafeArea(
                       child:
-                          state is AuththenticateSuccess
+                          authState is AuththenticateSuccess
                               ? _buildBody(
                                 context,
                                 filterProducts.isNotEmpty
                                     ? filterProducts
                                     : allProducts,
                               )
-                              : _buildBodyNoLogin(context, allProducts),
+                              : _buildBodyNoLogin(
+                                context,
+                                filterProducts.isNotEmpty
+                                    ? filterProducts
+                                    : allProducts,
+                              ),
                     ),
                   );
                 }
@@ -129,27 +135,16 @@ Widget _buildBody(BuildContext context, List<Product> products) {
         imagePath:
             products[index].imageProduct ?? Assets.images.imgLogoIcon.path,
         reviewCount: products[index].reviewCount,
-        onPressed: () async {
-          // List<Map<String, dynamic>>? savedFoods =
-          //     AppPreference.getJsonData("reserved_foods") ?? [];
-
-          // savedFoods.add({
-          //   "name": products[index].nameProduct,
-          //   "description": products[index].descriptionProduct,
-          //   "image":
-          //       products[index].imageProduct ?? Assets.images.imgLogoIcon.path,
-          // });
-
-          // await AppPreference.saveJsonData("reserved_foods", savedFoods);
+        onPressed: () {
           Navigator.pushNamed(
             context,
             Routenamed.reservationscreen,
-            arguments: products[index].id,
+            arguments: products[index].idProduct,
           );
         },
       );
     },
-    separatorBuilder: (context, index) => const Divider(),
+    separatorBuilder: (context, index) => const SizedBox(height: 6),
     itemCount: products.length,
   );
 }
@@ -189,7 +184,7 @@ Widget _buildBodyNoLogin(BuildContext context, List<Product> products) {
         },
       );
     },
-    separatorBuilder: (context, index) => const Divider(),
+    separatorBuilder: (context, index) => const SizedBox(height: 6),
     itemCount: products.length,
   );
 }
